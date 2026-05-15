@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
@@ -8,6 +8,7 @@ export default function Home() {
           <h1 className=" text-3xl font-bold leading-10 tracking-tight text-black dark:text-zinc-50">
             MineCMS
           </h1>
+          <Button variant="outline">Play</Button>
         </div>
       </main>
     </div>
