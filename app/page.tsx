@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -8,9 +9,14 @@ export default function Home() {
           <h1 className=" text-3xl font-bold leading-10 tracking-tight text-black dark:text-zinc-50">
             MineCMS
           </h1>
-          <Button variant="outline">Play</Button>
+          <Link
+            href="https://github.com/minecms"
+            className={buttonVariants({ variant: "outline" })}
+          >
+            GitHub
+          </Link>
         </div>
       </main>
     </div>
-  )
+  );
 }
