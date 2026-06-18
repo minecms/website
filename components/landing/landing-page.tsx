@@ -17,25 +17,25 @@ const USE_CASES = [
   {
     title: "Studio",
     description:
-      "Vite 8 + React 19 + TanStack Router/Query. Списки, формы и field renderers строятся из minecms.config.ts — правка схемы обновляет UI без ручной вёрстки.",
+      "Админка на Vite 8 и React 19. Списки, формы и поля собираются из minecms.config.ts — поменяли схему, интерфейс обновился сам, без ручной вёрстки.",
     href: "https://github.com/minecms/minecms/tree/main/minecms/apps/studio",
   },
   {
     title: "Server & API",
     description:
-      "Fastify v5, REST + tRPC v11, signed-cookie сессии. PostgreSQL 16 и MySQL 8 через Drizzle ORM. CRUD и медиа из одного контракта схем.",
+      "Сервер на Fastify v5: REST и tRPC v11, сессии через подписанные cookie. PostgreSQL 16 и MySQL 8 через Drizzle ORM. CRUD и медиа — из одних и тех же схем.",
     href: "https://github.com/minecms/minecms/tree/main/minecms/apps/server",
   },
   {
     title: "SDK",
     description:
-      "Типизированный REST-клиент с InferSchemaType. Пакеты @minecms/sdk, sdk-next и sdk-nuxt — документы на клиенте с полным выводом типов из схем.",
+      "Типизированный REST-клиент с InferSchemaType. Пакеты @minecms/sdk, sdk-next и sdk-nuxt — типы документов на клиенте выводятся прямо из схем.",
     href: "https://github.com/minecms/minecms/tree/main/minecms/packages/sdk",
   },
   {
     title: "CLI",
     description:
-      "npm create @minecms/minecms-app — monorepo с cms/ и web/. Шаблоны --next, --nuxt или только CMS. Docker Compose для БД и MinIO.",
+      "npm create @minecms/minecms-app — monorepo с cms/ и web/. Шаблоны --next, --nuxt или только CMS. Docker Compose поднимает базу и MinIO.",
     href: "https://www.npmjs.com/package/@minecms/create-minecms-app",
   },
 ] as const;
@@ -45,7 +45,7 @@ const MEET_FEATURES = [
     label: "defineSchema",
     title: "Схемы в TypeScript, не в админке",
     description:
-      "defineSchema, defineField, defineConfig — контент-модели в git с code review. Zod-валидаторы и миграции Drizzle собираются из одного контракта в @minecms/core.",
+      "defineSchema, defineField, defineConfig — модели контента лежат в git, их проверяют через ревью кода. Zod-валидаторы и миграции Drizzle собираются из одного описания в @minecms/core.",
     image: "/images/studio-visual.png",
     imageAlt: "Схемы MineCMS в коде",
     reverse: false,
@@ -54,16 +54,16 @@ const MEET_FEATURES = [
     label: "Studio",
     title: "Админка из схем, без ручной вёрстки",
     description:
-      "Install-визард создаёт администратора и прогоняет миграции. CRUD, медиа и field renderers рендерятся динамически — tRPC связывает UI с server.",
+      "Мастер установки создаёт администратора и прогоняет миграции. Списки, формы и медиа собираются сами — tRPC связывает интерфейс с сервером.",
     image: "/images/install-visual.png",
-    imageAlt: "Install-визард MineCMS Studio",
+    imageAlt: "Мастер установки MineCMS Studio",
     reverse: true,
   },
   {
     label: "SDK & API",
-    title: "Один контракт — REST, tRPC и типы",
+    title: "Одно описание — REST, tRPC и типы",
     description:
-      "Server сериализует схемы один раз. REST и tRPC v11 отдают CRUD, SDK типизирует документы через InferSchemaType. UI, валидация и API не расходятся.",
+      "Сервер читает схемы один раз. REST и tRPC v11 отдают CRUD, SDK типизирует документы через InferSchemaType. Интерфейс, проверка данных и API всегда совпадают.",
     image: "/images/architecture-visual.png",
     imageAlt: "Архитектура MineCMS: core, server, studio, sdk",
     reverse: false,
@@ -82,10 +82,10 @@ const STACK = [
 ] as const;
 
 const MARQUEE = [
-  "schemas-as-code",
-  "self-hosted",
+  "схемы в коде",
+  "на вашем сервере",
   "MIT",
-  "vendor-neutral",
+  "без привязки к вендору",
   "Fastify",
   "tRPC",
   "Drizzle",
@@ -125,7 +125,7 @@ function CopyButton({ text }: { text: string }) {
       className="shrink-0 rounded-md px-3 py-1.5 text-xs text-white/70 transition-colors hover:bg-white/10 hover:text-white"
       aria-label="Скопировать команду"
     >
-      Copy
+      Копировать
     </button>
   );
 }
@@ -214,7 +214,7 @@ export function LandingPage() {
                 data-hero-fade
                 className="mb-6 text-[13px] tracking-wide text-white/75"
               >
-                Headless CMS · TypeScript · self-hosted · MIT
+                CMS без готовой вёрстки · TypeScript · на вашем сервере · MIT
               </p>
 
               <h1 className="text-balance text-[clamp(2.25rem,6.5vw,4.75rem)] font-normal leading-[1.05] tracking-[-0.04em] text-white">
@@ -225,7 +225,7 @@ export function LandingPage() {
                   Studio, API и SDK
                 </span>
                 <span data-hero-line className="block">
-                  из одного контракта.
+                  из одного описания.
                 </span>
               </h1>
 
@@ -233,9 +233,10 @@ export function LandingPage() {
                 data-hero-fade
                 className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/80 md:text-lg"
               >
-                defineSchema описывает контент-модели — @minecms/core
-                сериализует контракт, server отдаёт REST/tRPC, Studio рендерит
-                UI, SDK типизирует клиент через InferSchemaType.
+                defineSchema описывает модели контента — @minecms/core
+                собирает из них общее описание, сервер отдаёт REST и tRPC,
+                Studio рисует админку, SDK подставляет типы через
+                InferSchemaType.
               </p>
 
               <div
@@ -287,13 +288,10 @@ export function LandingPage() {
           <Shell>
             <p
               data-reveal
-              className="text-center text-sm leading-relaxed text-[#121212]/50 md:text-base"
+              className="text-center text-sm leading-relaxed text-[#121212]/75 md:text-base"
             >
-              Open source headless CMS для команд, которым нужен{" "}
-              <span className="text-[#121212]/80">schemas-as-code</span>,{" "}
-              <span className="text-[#121212]/80">self-hosted</span> деплой и{" "}
-              <span className="text-[#121212]/80">vendor-neutral</span> стек — без
-              проприетарных облаков и кликов в GUI для моделей данных.
+              Открытая CMS на вашем сервере. Схемы контента — в коде, рядом с
+              проектом. Никаких чужих облаков и подписок.
             </p>
           </Shell>
         </section>
@@ -320,13 +318,13 @@ export function LandingPage() {
               <div>
                 <SectionLabel>Разработчикам</SectionLabel>
                 <h2 className="mt-4 text-balance text-[clamp(1.5rem,3.5vw,2.25rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-                  Schemas-as-code для разработчиков
+                  Схемы в коде — для разработчиков
                 </h2>
                 <p className="mt-5 text-base leading-[1.8] text-[#121212]/75">
                   defineSchema, defineField, defineConfig в TypeScript. Схемы в
-                  git, миграции Drizzle из контракта, InferSchemaType на
-                  клиенте. Fastify + tRPC + REST — без расхождения типов между
-                  API и фронтом.
+                  git, миграции Drizzle из того же описания, InferSchemaType на
+                  клиенте. Fastify + tRPC + REST — типы на фронте и в API не
+                  расходятся.
                 </p>
               </div>
               <div>
@@ -335,9 +333,10 @@ export function LandingPage() {
                   Studio для контента
                 </h2>
                 <p className="mt-5 text-base leading-[1.8] text-[#121212]/75">
-                  Админка с динамическими списками, формами и медиа. Install-визард
-                  за минуты — PostgreSQL, администратор, готово. CRUD по вашим
-                  схемам без отдельной вёрстки под каждый тип документа.
+                  Админка с динамическими списками, формами и медиа. Мастер
+                  установки за минуты — PostgreSQL, администратор, готово.
+                  CRUD по вашим схемам без отдельной вёрстки под каждый тип
+                  документа.
                 </p>
               </div>
             </div>
@@ -350,11 +349,11 @@ export function LandingPage() {
             <div data-reveal className="mx-auto max-w-3xl text-center">
               <SectionLabel>Платформа</SectionLabel>
               <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-                Четыре поверхности из одного контракта
+                Четыре части из одного описания
               </h2>
               <p className="mt-5 text-base leading-[1.8] text-[#121212]/75 md:text-lg">
-                @minecms/core сериализует схемы один раз — Studio, server, SDK и
-                CLI читают один и тот же источник правды.
+                @minecms/core собирает схемы один раз — Studio, сервер, SDK и
+                CLI читают одно и то же.
               </p>
             </div>
 
@@ -388,7 +387,7 @@ export function LandingPage() {
             <div data-reveal className="mx-auto max-w-3xl text-center">
               <SectionLabel>Стек</SectionLabel>
               <h2 className="mt-4 text-balance text-[clamp(1.75rem,3.5vw,2.5rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-                Node 24, Fastify, tRPC, Drizzle — без legacy-обёрток
+                Node 24, Fastify, tRPC, Drizzle — без устаревших прослоек
               </h2>
             </div>
             <div
@@ -416,8 +415,8 @@ export function LandingPage() {
                 Знакомьтесь с CMS
               </h2>
               <p className="mt-5 text-base leading-[1.8] text-[#121212]/75 md:text-lg">
-                От defineSchema до типизированного SDK — один контракт на все
-                runtime-поверхности.
+                От defineSchema до типизированного SDK — одно описание для
+                админки, API и клиента.
               </p>
             </div>
 
@@ -470,18 +469,18 @@ export function LandingPage() {
                 Лучший способ управлять контентом
               </h2>
               <p className="mt-6 text-base leading-[1.85] text-[#121212]/75 md:text-lg">
-                MineCMS — vendor-neutral headless CMS с открытым исходным кодом
-                под MIT. Self-hosted: ваш сервер, ваши данные, PostgreSQL или
-                MySQL. Схемы живут в репозитории рядом с приложением — code
-                review вместо кликов в GUI. Без проприетарных облаков и
-                vendor lock-in.
+                MineCMS — открытая система управления контентом без готовой
+                вёрстки, лицензия MIT. На вашем сервере, ваши данные,
+                PostgreSQL или MySQL. Схемы лежат в репозитории рядом с
+                приложением — ревью кода вместо кликов в админке. Без чужих
+                облаков и привязки к платформе.
               </p>
               <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-[#121212]/70">
-                <li>MIT License</li>
-                <li>Self-hosted</li>
-                <li>Vendor-neutral</li>
-                <li>Schemas-as-code</li>
-                <li>Open source</li>
+                <li>Лицензия MIT</li>
+                <li>На вашем сервере</li>
+                <li>Без привязки к вендору</li>
+                <li>Схемы в коде</li>
+                <li>Открытый исходный код</li>
               </ul>
             </div>
           </Shell>
@@ -499,7 +498,8 @@ export function LandingPage() {
               </h2>
               <p className="mt-5 text-base leading-[1.8] text-white/80 md:text-lg">
                 Node 24+, pnpm 10+, Docker. Шаблон --next поднимает cms/ и
-                Next.js web/ — после install-визарда документ сразу в API и SDK.
+                Next.js web/ — после мастера установки документ сразу доступен
+                в API и SDK.
               </p>
 
               <pre className="mx-auto mt-10 max-w-xl overflow-x-auto rounded-lg border border-white/10 bg-white/5 px-5 py-4 text-left font-mono text-[13px] leading-[1.9] text-white/85">
@@ -556,7 +556,7 @@ pnpm dev
                   MineCMS
                 </p>
                 <p className="mt-3 text-sm text-white/70">
-                  MIT · Node 24+ · pnpm 10+ · vendor-neutral
+                  MIT · Node 24+ · pnpm 10+ · без привязки к вендору
                 </p>
               </div>
               <div className="flex flex-col items-center gap-3 text-sm text-white/70 md:items-end">
