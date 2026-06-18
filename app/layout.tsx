@@ -5,11 +5,11 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "MineCMS — CMS со схемами в коде",
   description:
-    "Система управления контентом на вашем сервере: defineSchema, Fastify + tRPC, Drizzle ORM, админка Studio на React 19, типизированный SDK. PostgreSQL 16, MySQL 8.",
+    "Один minecms.config.ts — админка Studio, REST и tRPC API, типизированный SDK через InferSchemaType. PostgreSQL 16, MySQL 8, Drizzle ORM, Fastify v5. На вашем сервере, лицензия MIT.",
   openGraph: {
     title: "MineCMS",
     description:
-      "CMS без готовой вёрстки на TypeScript. Схемы в коде, на вашем сервере, открытый исходник.",
+      "CMS без готовой вёрстки на TypeScript. Схемы в коде, свой сервер, открытый исходный код — админка, API и типы из одного конфига.",
     url: "https://minecms.ru",
     siteName: "MineCMS",
     locale: "ru_RU",
