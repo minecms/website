@@ -16,7 +16,7 @@ cd "$ROOT"
 
 docker network create web >/dev/null 2>&1 || true
 
-cp -f "$ROOT/caddy/minecms.caddy" "$MINECMS_CADDY"
+# minecms.caddy lives in repo at caddy/minecms.caddy
 
 docker compose up -d --build minecms-app
 
