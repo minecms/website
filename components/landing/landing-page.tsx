@@ -159,14 +159,24 @@ const UI_TECH = [
     tagClass: "bg-rose-100 text-rose-800",
   },
   {
-    label: typo("Детали"),
-    title: typo("Иконки и полировка"),
+    label: typo("Рантайм"),
+    title: "React 19 + Vite 8",
     description: typo(
-      "Hugeicons — единый набор иконок через обёртку Icon. clsx и class-variance-authority для вариантов компонентов. На лендинге — GSAP и Lenis для плавного скролла; в Studio — React 19 с Vite 8 и HMR за миллисекунды.",
+      "Studio собран на React 19 и Vite 8: мгновенный HMR при разработке, быстрый production-бандл. Списки, формы и медиатека открываются без перезагрузки — TanStack Router переключает экраны, Query подтягивает данные с сервера.",
     ),
-    tags: ["Hugeicons", "React 19", "GSAP", "Lenis"],
+    tags: ["React 19", "Vite 8", "HMR", "TanStack Router"],
     accent: "border-orange-200 bg-orange-50/60",
     tagClass: "bg-orange-100 text-orange-800",
+  },
+  {
+    label: typo("Детали"),
+    title: typo("Иконки и варианты"),
+    description: typo(
+      "Hugeicons — единый набор иконок через обёртку Icon во всём Studio. clsx и class-variance-authority задают варианты Button, Badge, Alert и других компонентов @minecms/ui — один API, предсказуемый вид во всех экранах админки.",
+    ),
+    tags: ["Hugeicons", "clsx", "CVA", "tailwind-merge"],
+    accent: "border-fuchsia-200 bg-fuchsia-50/60",
+    tagClass: "bg-fuchsia-100 text-fuchsia-800",
   },
 ] as const;
 
@@ -473,13 +483,13 @@ export function LandingPage() {
         <section className="overflow-hidden border-y border-[#121212]/8 bg-[#fafafa] py-20 md:py-28">
           <Shell>
             <div data-reveal className="mx-auto max-w-3xl text-center">
-              <SectionLabel>{typo("Интерфейс")}</SectionLabel>
+              <SectionLabel>Studio</SectionLabel>
               <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-                {typo("UI на самых современных технологиях")}
+                {typo("Интерфейс MineCMS Studio")}
               </h2>
               <p className="mt-5 text-base leading-[1.8] text-[#121212]/75 md:text-lg">
                 {typo(
-                  "MineCMS Studio — не legacy-админка на jQuery. Это React 19, Tailwind CSS v4, shadcn/ui и Radix UI: продуманный интерфейс Design Engineer, доступный редакторам и приятный разработчикам.",
+                  "Админка MineCMS — не legacy-панель на jQuery. React 19, Tailwind CSS v4, shadcn/ui и Radix UI: продуманный интерфейс Design Engineer, понятный редакторам и удобный разработчикам.",
                 )}
               </p>
             </div>
