@@ -15,57 +15,57 @@ const CREATE_CMD = `npm create @minecms/minecms-app my-app -- --next -y`;
 
 const USE_CASES = [
   {
-    title: "Studio",
+    title: "Ядро",
     description:
-      "Админка на Vite 8 и React 19. Списки, формы и поля собираются из minecms.config.ts — поменяли схему, интерфейс обновился сам, без ручной вёрстки.",
-    href: "https://github.com/minecms/minecms/tree/main/minecms/apps/studio",
+      "Пакет @minecms/core: defineSchema, defineField и defineConfig описывают модели в TypeScript. Отсюда же берутся Zod-валидаторы и миграции Drizzle — одно место, где задаётся структура контента.",
+    href: "https://github.com/minecms/minecms/tree/main/packages/core",
   },
   {
-    title: "Server & API",
+    title: "Сервер",
     description:
-      "Сервер на Fastify v5: REST и tRPC v11, сессии через подписанные cookie. PostgreSQL 16 и MySQL 8 через Drizzle ORM. CRUD и медиа — из одних и тех же схем.",
-    href: "https://github.com/minecms/minecms/tree/main/minecms/apps/server",
+      "Backend на Fastify v5: REST и tRPC v11, сессии через подписанные cookie. PostgreSQL 16 или MySQL 8 через Drizzle ORM. CRUD, медиа в MinIO и права доступа — всё из тех же схем, что в конфиге.",
+    href: "https://github.com/minecms/minecms/tree/main/apps/server",
+  },
+  {
+    title: "Studio",
+    description:
+      "Админка на Vite 8 и React 19. Списки, формы и поля собираются из minecms.config.ts — изменили схему в коде, интерфейс обновился сам, без ручной вёрстки под каждый тип документа.",
+    href: "https://github.com/minecms/minecms/tree/main/apps/studio",
   },
   {
     title: "SDK",
     description:
-      "Типизированный REST-клиент с InferSchemaType. Пакеты @minecms/sdk, sdk-next и sdk-nuxt — типы документов на клиенте выводятся прямо из схем.",
-    href: "https://github.com/minecms/minecms/tree/main/minecms/packages/sdk",
-  },
-  {
-    title: "CLI",
-    description:
-      "npm create @minecms/minecms-app — monorepo с cms/ и web/. Шаблоны --next, --nuxt или только CMS. Docker Compose поднимает базу и MinIO.",
-    href: "https://www.npmjs.com/package/@minecms/create-minecms-app",
+      "Типизированный REST-клиент: InferSchemaType выводит типы документов прямо из схем. Пакеты @minecms/sdk, sdk-next и sdk-nuxt — на фронте те же типы, что на сервере, без ручного дублирования.",
+    href: "https://github.com/minecms/minecms/tree/main/packages/sdk",
   },
 ] as const;
 
 const MEET_FEATURES = [
   {
     label: "defineSchema",
-    title: "Схемы в TypeScript, не в админке",
+    title: "Модели контента — в коде, рядом с приложением",
     description:
-      "defineSchema, defineField, defineConfig — модели контента лежат в git, их проверяют через ревью кода. Zod-валидаторы и миграции Drizzle собираются из одного описания в @minecms/core.",
+      "Что: defineSchema, defineField и defineConfig описывают поля, связи и права в TypeScript. Как: схемы лежат в git, проходят code review; @minecms/core собирает из них Zod-валидаторы и миграции Drizzle. Зачем: структура контента версионируется вместе с проектом — не в отдельной админке и не в чужом облаке.",
     image: "/images/studio-visual.png",
     imageAlt: "Схемы MineCMS в коде",
     reverse: false,
   },
   {
     label: "Studio",
-    title: "Админка из схем, без ручной вёрстки",
+    title: "Админка собирается из схем автоматически",
     description:
-      "Мастер установки создаёт администратора и прогоняет миграции. Списки, формы и медиа собираются сами — tRPC связывает интерфейс с сервером.",
+      "Что: панель управления с динамическими списками, формами и медиа. Как: мастер установки создаёт администратора и прогоняет миграции; tRPC связывает интерфейс с сервером в реальном времени. Зачем: контент-команда работает с готовым интерфейсом — разработчикам не нужно вёрстать форму под каждый тип документа.",
     image: "/images/install-visual.png",
     imageAlt: "Мастер установки MineCMS Studio",
     reverse: true,
   },
   {
     label: "SDK & API",
-    title: "Одно описание — REST, tRPC и типы",
+    title: "REST, tRPC и типы — из одного minecms.config.ts",
     description:
-      "Сервер читает схемы один раз. REST и tRPC v11 отдают CRUD, SDK типизирует документы через InferSchemaType. Интерфейс, проверка данных и API всегда совпадают.",
+      "Что: сервер отдаёт CRUD через REST и tRPC v11, SDK типизирует ответы через InferSchemaType. Как: сервер читает схемы один раз при старте — эндпоинты, валидация и типы на клиенте совпадают. Зачем: фронт и API не расходятся — поменяли поле в схеме, TypeScript сразу покажет, где обновить код.",
     image: "/images/architecture-visual.png",
-    imageAlt: "Архитектура MineCMS: core, server, studio, sdk",
+    imageAlt: "Архитектура MineCMS: ядро, сервер, Studio, SDK",
     reverse: false,
   },
 ] as const;
@@ -85,7 +85,7 @@ const MARQUEE = [
   "схемы в коде",
   "на вашем сервере",
   "MIT",
-  "без привязки к вендору",
+  "открытый исходный код",
   "Fastify",
   "tRPC",
   "Drizzle",
@@ -214,18 +214,18 @@ export function LandingPage() {
                 data-hero-fade
                 className="mb-6 text-[13px] tracking-wide text-white/75"
               >
-                CMS без готовой вёрстки · TypeScript · на вашем сервере · MIT
+                CMS без готовой вёрстки · TypeScript · свой сервер · MIT
               </p>
 
               <h1 className="text-balance text-[clamp(2.25rem,6.5vw,4.75rem)] font-normal leading-[1.05] tracking-[-0.04em] text-white">
                 <span data-hero-line className="block">
-                  Схемы в коде.
+                  Один minecms.config.ts —
                 </span>
                 <span data-hero-line className="block text-white/80">
-                  Studio, API и SDK
+                  админка, API
                 </span>
                 <span data-hero-line className="block">
-                  из одного описания.
+                  и типы на клиенте.
                 </span>
               </h1>
 
@@ -233,10 +233,10 @@ export function LandingPage() {
                 data-hero-fade
                 className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/80 md:text-lg"
               >
-                defineSchema описывает модели контента — @minecms/core
-                собирает из них общее описание, сервер отдаёт REST и tRPC,
-                Studio рисует админку, SDK подставляет типы через
-                InferSchemaType.
+                defineSchema описывает модели контента в TypeScript. @minecms/core
+                собирает из них валидаторы и миграции, сервер отдаёт REST и tRPC,
+                Studio рисует админку, SDK подставляет типы через InferSchemaType —
+                всё из одного конфига, без ручного дублирования.
               </p>
 
               <div
@@ -290,8 +290,9 @@ export function LandingPage() {
               data-reveal
               className="text-center text-sm leading-relaxed text-[#121212]/75 md:text-base"
             >
-              Открытая CMS на вашем сервере. Схемы контента — в коде, рядом с
-              проектом. Никаких чужих облаков и подписок.
+              Открытая CMS на вашем сервере: PostgreSQL или MySQL, данные и медиа
+              у вас. Схемы контента — в коде рядом с проектом, без чужих облаков
+              и ежемесячных подписок.
             </p>
           </Shell>
         </section>
@@ -318,25 +319,25 @@ export function LandingPage() {
               <div>
                 <SectionLabel>Разработчикам</SectionLabel>
                 <h2 className="mt-4 text-balance text-[clamp(1.5rem,3.5vw,2.25rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-                  Схемы в коде — для разработчиков
+                  TypeScript, git и типы без расхождений
                 </h2>
                 <p className="mt-5 text-base leading-[1.8] text-[#121212]/75">
-                  defineSchema, defineField, defineConfig в TypeScript. Схемы в
-                  git, миграции Drizzle из того же описания, InferSchemaType на
-                  клиенте. Fastify + tRPC + REST — типы на фронте и в API не
-                  расходятся.
+                  defineSchema, defineField и defineConfig — схемы в репозитории,
+                  миграции Drizzle из того же конфига, InferSchemaType на клиенте.
+                  Fastify + tRPC + REST: типы на фронте и в API совпадают, потому
+                  что оба читают один minecms.config.ts.
                 </p>
               </div>
               <div>
                 <SectionLabel>Контент-командам</SectionLabel>
                 <h2 className="mt-4 text-balance text-[clamp(1.5rem,3.5vw,2.25rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-                  Studio для контента
+                  Studio — готовая админка из ваших схем
                 </h2>
                 <p className="mt-5 text-base leading-[1.8] text-[#121212]/75">
-                  Админка с динамическими списками, формами и медиа. Мастер
-                  установки за минуты — PostgreSQL, администратор, готово.
-                  CRUD по вашим схемам без отдельной вёрстки под каждый тип
-                  документа.
+                  Динамические списки, формы и медиа с превью в полный экран.
+                  Мастер установки за минуты: PostgreSQL 16, администратор,
+                  миграции — и можно создавать документы. CRUD по схемам без
+                  отдельной вёрстки под каждый тип контента.
                 </p>
               </div>
             </div>
@@ -349,11 +350,13 @@ export function LandingPage() {
             <div data-reveal className="mx-auto max-w-3xl text-center">
               <SectionLabel>Платформа</SectionLabel>
               <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-                Четыре части из одного описания
+                Ядро, Сервер, Studio и SDK — один конфиг
               </h2>
               <p className="mt-5 text-base leading-[1.8] text-[#121212]/75 md:text-lg">
-                @minecms/core собирает схемы один раз — Studio, сервер, SDK и
-                CLI читают одно и то же.
+                minecms.config.ts описывает модели один раз. @minecms/core
+                собирает валидаторы и миграции, сервер отдаёт API, Studio
+                рисует админку, SDK типизирует клиент — четыре части читают
+                одни и те же схемы.
               </p>
             </div>
 
@@ -387,8 +390,12 @@ export function LandingPage() {
             <div data-reveal className="mx-auto max-w-3xl text-center">
               <SectionLabel>Стек</SectionLabel>
               <h2 className="mt-4 text-balance text-[clamp(1.75rem,3.5vw,2.5rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-                Node 24, Fastify, tRPC, Drizzle — без устаревших прослоек
+                Современный стек без лишних прослоек
               </h2>
+              <p className="mt-5 text-base leading-[1.8] text-[#121212]/75 md:text-lg">
+                Node 24 LTS, Fastify v5, tRPC v11, Drizzle ORM — PostgreSQL 16
+                или MySQL 8, React 19 на фронте, шаблоны под Next.js и Nuxt.
+              </p>
             </div>
             <div
               data-reveal
@@ -412,11 +419,11 @@ export function LandingPage() {
             <div data-reveal className="mx-auto max-w-3xl text-center">
               <SectionLabel>MineCMS</SectionLabel>
               <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-                Знакомьтесь с CMS
+                Как устроена MineCMS
               </h2>
               <p className="mt-5 text-base leading-[1.8] text-[#121212]/75 md:text-lg">
-                От defineSchema до типизированного SDK — одно описание для
-                админки, API и клиента.
+                От defineSchema в коде до типизированного SDK на клиенте — один
+                конфиг связывает админку, API и фронт.
               </p>
             </div>
 
@@ -466,21 +473,21 @@ export function LandingPage() {
             >
               <SectionLabel>Философия</SectionLabel>
               <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-                Лучший способ управлять контентом
+                Контент под вашим контролем
               </h2>
               <p className="mt-6 text-base leading-[1.85] text-[#121212]/75 md:text-lg">
-                MineCMS — открытая система управления контентом без готовой
-                вёрстки, лицензия MIT. На вашем сервере, ваши данные,
-                PostgreSQL или MySQL. Схемы лежат в репозитории рядом с
-                приложением — ревью кода вместо кликов в админке. Без чужих
-                облаков и привязки к платформе.
+                MineCMS — открытая CMS без готовой вёрстки, лицензия MIT. Данные
+                на вашем сервере: PostgreSQL 16 или MySQL 8, медиа в MinIO.
+                Схемы лежат в репозитории рядом с приложением — code review
+                вместо правок в чужой админке. Без облачных подписок и
+                привязки к чужой платформе.
               </p>
-              <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-[#121212]/70">
+              <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-[#121212]/75">
                 <li>Лицензия MIT</li>
                 <li>На вашем сервере</li>
-                <li>Без привязки к вендору</li>
-                <li>Схемы в коде</li>
                 <li>Открытый исходный код</li>
+                <li>Схемы в коде</li>
+                <li>PostgreSQL и MySQL</li>
               </ul>
             </div>
           </Shell>
@@ -494,12 +501,13 @@ export function LandingPage() {
           <Shell>
             <div data-reveal className="mx-auto max-w-3xl text-center">
               <h2 className="text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-                Начните за одну команду
+                Запуск за одну команду
               </h2>
               <p className="mt-5 text-base leading-[1.8] text-white/80 md:text-lg">
-                Node 24+, pnpm 10+, Docker. Шаблон --next поднимает cms/ и
-                Next.js web/ — после мастера установки документ сразу доступен
-                в API и SDK.
+                Node 24+, pnpm 10+, Docker. Шаблон --next создаёт monorepo с
+                cms/ и web/: Docker Compose поднимает PostgreSQL и MinIO, мастер
+                установки в Studio — и документ сразу доступен через REST, tRPC
+                и SDK.
               </p>
 
               <pre className="mx-auto mt-10 max-w-xl overflow-x-auto rounded-lg border border-white/10 bg-white/5 px-5 py-4 text-left font-mono text-[13px] leading-[1.9] text-white/85">
@@ -555,8 +563,8 @@ pnpm dev
                 <p className="text-[clamp(1.5rem,4vw,2.5rem)] font-normal leading-none tracking-[-0.04em]">
                   MineCMS
                 </p>
-                <p className="mt-3 text-sm text-white/70">
-                  MIT · Node 24+ · pnpm 10+ · без привязки к вендору
+                <p className="mt-3 text-sm text-white/75">
+                  MIT · Node 24+ · pnpm 10+ · открытый исходный код
                 </p>
               </div>
               <div className="flex flex-col items-center gap-3 text-sm text-white/70 md:items-end">
