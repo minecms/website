@@ -115,8 +115,6 @@ const UI_TECH = [
       "Собственная дизайн-система Studio: токены в oklch, светлая и тёмная тема, единые отступы и радиусы. Компоненты документированы в Storybook — Button, Form, Dialog, Select, Sheet и другие примитивы из одного пакета.",
     ),
     tags: ["@minecms/ui", "oklch", "Storybook", "Design Engineer"],
-    accent: "border-violet-200 bg-violet-50/60",
-    tagClass: "bg-violet-100 text-violet-800",
   },
   {
     label: typo("Стили"),
@@ -125,8 +123,6 @@ const UI_TECH = [
       "Utility-first вёрстка на последней major-версии Tailwind: CSS-first конфиг, @theme inline, без legacy tailwind.config. Быстрая сборка через Vite 8, предсказуемые утилиты bg-background, text-foreground и ring-ring из токенов.",
     ),
     tags: ["Tailwind v4", "Vite 8", "CVA", "tailwind-merge"],
-    accent: "border-sky-200 bg-sky-50/60",
-    tagClass: "bg-sky-100 text-sky-800",
   },
   {
     label: typo("Компоненты"),
@@ -135,8 +131,6 @@ const UI_TECH = [
       "Паттерны shadcn/ui — composable-компоненты, которые вы контролиете в коде, а не тянете из чёрного ящика. Radix UI даёт доступность из коробки: фокус, клавиатура, aria — в Dialog, Dropdown, Select, Popover, Tooltip и Switch.",
     ),
     tags: ["shadcn/ui", "Radix UI", "a11y", "composable"],
-    accent: "border-emerald-200 bg-emerald-50/60",
-    tagClass: "bg-emerald-100 text-emerald-800",
   },
   {
     label: typo("Формы и данные"),
@@ -145,8 +139,6 @@ const UI_TECH = [
       "TanStack Router — типизированная навигация, TanStack Query — кэш и синхронизация с сервером, TanStack Form — управление полями без боли. tRPC v11 связывает Studio с API в реальном времени: типы на клиенте совпадают с сервером.",
     ),
     tags: ["TanStack Router", "TanStack Query", "TanStack Form", "tRPC v11"],
-    accent: "border-amber-200 bg-amber-50/60",
-    tagClass: "bg-amber-100 text-amber-800",
   },
   {
     label: typo("Редактор"),
@@ -155,8 +147,6 @@ const UI_TECH = [
       "Современный rich-text на ProseMirror: заголовки, списки, ссылки, таблицы, выделение, выравнивание — всё в поле контента Studio. Расширяемая архитектура: новые блоки добавляются без переписывания админки.",
     ),
     tags: ["TipTap", "ProseMirror", "rich-text", "tables"],
-    accent: "border-rose-200 bg-rose-50/60",
-    tagClass: "bg-rose-100 text-rose-800",
   },
   {
     label: typo("Рантайм"),
@@ -165,8 +155,6 @@ const UI_TECH = [
       "Studio собран на React 19 и Vite 8: мгновенный HMR при разработке, быстрый production-бандл. Списки, формы и медиатека открываются без перезагрузки — TanStack Router переключает экраны, Query подтягивает данные с сервера.",
     ),
     tags: ["React 19", "Vite 8", "HMR", "TanStack Router"],
-    accent: "border-orange-200 bg-orange-50/60",
-    tagClass: "bg-orange-100 text-orange-800",
   },
   {
     label: typo("Детали"),
@@ -175,8 +163,6 @@ const UI_TECH = [
       "Hugeicons — единый набор иконок через обёртку Icon во всём Studio. clsx и class-variance-authority задают варианты Button, Badge, Alert и других компонентов @minecms/ui — один API, предсказуемый вид во всех экранах админки.",
     ),
     tags: ["Hugeicons", "clsx", "CVA", "tailwind-merge"],
-    accent: "border-fuchsia-200 bg-fuchsia-50/60",
-    tagClass: "bg-fuchsia-100 text-fuchsia-800",
   },
 ] as const;
 
@@ -505,13 +491,9 @@ export function LandingPage() {
               </div>
             </div>
 
-            <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:gap-6">
+            <div className="mt-14 grid gap-10 sm:grid-cols-2 lg:gap-12">
               {UI_TECH.map((item) => (
-                <article
-                  key={item.title}
-                  data-reveal
-                  className={`rounded-2xl border p-6 md:p-7 ${item.accent}`}
-                >
+                <article key={item.title} data-reveal>
                   <SectionLabel>{item.label}</SectionLabel>
                   <h3 className="mt-3 text-xl tracking-[-0.02em] md:text-2xl">
                     {item.title}
@@ -519,17 +501,9 @@ export function LandingPage() {
                   <p className="mt-3 text-[15px] leading-[1.8] text-[#121212]/75">
                     {item.description}
                   </p>
-                  <ul className="mt-5 flex flex-wrap gap-2">
-                    {item.tags.map((tag) => (
-                      <li key={tag}>
-                        <span
-                          className={`inline-block rounded-full px-2.5 py-1 font-mono text-[11px] tracking-wide ${item.tagClass}`}
-                        >
-                          {tag}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                  <p className="mt-4 font-mono text-xs leading-relaxed text-[#121212]/55">
+                    {item.tags.join(" · ")}
+                  </p>
                 </article>
               ))}
             </div>
