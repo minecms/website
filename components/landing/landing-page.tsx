@@ -122,7 +122,7 @@ function CopyButton({ text }: { text: string }) {
     <button
       type="button"
       onClick={copy}
-      className="shrink-0 rounded-md px-3 py-1.5 text-xs text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+      className="shrink-0 rounded-md px-3 py-1.5 text-xs text-white/70 transition-colors hover:bg-black hover:text-white"
       aria-label="Скопировать команду"
     >
       Копировать
@@ -259,7 +259,7 @@ export function LandingPage() {
                   nativeButton={false}
                   render={<Link href="#start" />}
                   size="lg"
-                  className="h-10 bg-white px-5 text-black hover:bg-white/90"
+                  className="h-10 bg-white px-5 text-black hover:bg-black hover:text-white"
                 >
                   Быстрый старт
                 </Button>
@@ -274,7 +274,7 @@ export function LandingPage() {
                   }
                   variant="outline"
                   size="lg"
-                  className="h-10 border-white/25 bg-transparent px-5 text-white hover:bg-white/10 hover:text-white"
+                  className="h-10 border-white/25 bg-transparent px-5 text-white hover:bg-black hover:text-white"
                 >
                   Документация →
                 </Button>
@@ -524,7 +524,7 @@ pnpm dev
                     />
                   }
                   size="lg"
-                  className="h-10 bg-white px-5 text-black hover:bg-white/90"
+                  className="h-10 bg-white px-5 text-black hover:bg-black hover:text-white"
                 >
                   npm create @minecms/minecms-app
                 </Button>
@@ -539,7 +539,7 @@ pnpm dev
                   }
                   variant="outline"
                   size="lg"
-                  className="h-10 border-white/25 bg-transparent px-5 text-white hover:bg-white/10 hover:text-white"
+                  className="h-10 border-white/25 bg-transparent px-5 text-white hover:bg-black hover:text-white"
                 >
                   GitHub
                 </Button>
