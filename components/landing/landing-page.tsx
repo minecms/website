@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SmoothScroll } from "./smooth-scroll";
+import { HeroBackground } from "./hero-background";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -143,17 +144,17 @@ export function LandingPage() {
           }}
         />
 
-        <header className="fixed inset-x-0 top-0 z-40 flex items-center justify-between px-6 py-6 md:px-10 md:py-8">
+        <header className="fixed inset-x-0 top-0 z-40 flex items-center justify-between px-6 py-6 mix-blend-difference md:px-10 md:py-8">
           <Link
             href="/"
-            className="text-[13px] font-medium tracking-[0.22em] uppercase text-[#121212]/80 transition-opacity hover:opacity-60"
+            className="text-[13px] font-medium tracking-[0.22em] uppercase text-white transition-opacity hover:opacity-60"
           >
             MineCMS
           </Link>
-          <nav className="flex items-center gap-6 text-[13px] tracking-wide text-[#121212]/55">
+          <nav className="flex items-center gap-6 text-[13px] tracking-wide text-white/80">
             <Link
               href="https://github.com/minecms/minecms"
-              className="transition-colors hover:text-[#121212]"
+              className="transition-opacity hover:opacity-60"
               target="_blank"
               rel="noreferrer"
             >
@@ -161,7 +162,7 @@ export function LandingPage() {
             </Link>
             <Link
               href="https://www.npmjs.com/org/minecms"
-              className="transition-colors hover:text-[#121212]"
+              className="transition-opacity hover:opacity-60"
               target="_blank"
               rel="noreferrer"
             >
@@ -170,37 +171,41 @@ export function LandingPage() {
           </nav>
         </header>
 
-        <section className="relative flex min-h-[100svh] flex-col justify-end px-6 pb-16 pt-32 md:px-10 md:pb-24">
-          <p
-            data-hero-meta
-            className="mb-8 max-w-xl text-[13px] leading-relaxed tracking-wide text-[#121212]/50"
-          >
-            Headless CMS на TypeScript · self-hosted · vendor-neutral
-          </p>
+        <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden px-6 pb-16 pt-32 text-[#f4f2ee] md:px-10 md:pb-24">
+          <HeroBackground />
 
-          <h1 className="max-w-[14ch] text-[clamp(2.75rem,9vw,7.5rem)] font-normal leading-[0.92] tracking-[-0.04em]">
-            <span data-hero-line className="block">
-              Схемы
-            </span>
-            <span data-hero-line className="block text-[#121212]/35">
-              в коде.
-            </span>
-            <span data-hero-line className="block">
-              CMS из коробки.
-            </span>
-          </h1>
+          <div className="relative z-10">
+            <p
+              data-hero-meta
+              className="mb-8 max-w-xl text-[13px] leading-relaxed tracking-wide text-[#f4f2ee]/55"
+            >
+              Headless CMS на TypeScript · self-hosted · vendor-neutral
+            </p>
 
-          <p
-            data-hero-meta
-            className="mt-10 max-w-md text-base leading-relaxed text-[#121212]/55 md:text-lg"
-          >
-            Опиши контент-модели в TypeScript — получи Studio, REST API и
-            типизированный SDK из одного источника правды.
-          </p>
+            <h1 className="max-w-[14ch] text-[clamp(2.75rem,9vw,7.5rem)] font-normal leading-[0.92] tracking-[-0.04em]">
+              <span data-hero-line className="block">
+                Схемы
+              </span>
+              <span data-hero-line className="block text-[#f4f2ee]/40">
+                в коде.
+              </span>
+              <span data-hero-line className="block">
+                CMS из коробки.
+              </span>
+            </h1>
 
-          <div data-scroll-hint className="mt-20 flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-[#121212]/35">
-            <span className="h-px w-8 bg-current" />
-            scroll
+            <p
+              data-hero-meta
+              className="mt-10 max-w-md text-base leading-relaxed text-[#f4f2ee]/60 md:text-lg"
+            >
+              Опиши контент-модели в TypeScript — получи Studio, REST API и
+              типизированный SDK из одного источника правды.
+            </p>
+
+            <div data-scroll-hint className="mt-20 flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-[#f4f2ee]/35">
+              <span className="h-px w-8 bg-current" />
+              scroll
+            </div>
           </div>
         </section>
 
@@ -235,10 +240,10 @@ export function LandingPage() {
           >
             <div data-parallax-inner className="absolute inset-[-8%]">
               <Image
-                src="/images/studio.png"
-                alt="MineCMS Studio — админка с динамическими формами"
+                src="/images/studio-visual.png"
+                alt="Абстрактная визуализация схем данных MineCMS Studio"
                 fill
-                className="object-cover object-top"
+                className="object-cover object-center"
                 sizes="100vw"
                 priority
               />
@@ -296,8 +301,8 @@ export function LandingPage() {
           >
             <div data-parallax-inner className="absolute inset-[-6%]">
               <Image
-                src="/images/install.png"
-                alt="Установка MineCMS — визард настройки"
+                src="/images/install-visual.png"
+                alt="Абстрактная визуализация быстрого запуска MineCMS"
                 fill
                 className="object-cover object-center"
                 sizes="(max-width: 768px) 100vw, 72vw"
@@ -341,6 +346,21 @@ export function LandingPage() {
             REST-клиент в SDK. Схемы сериализуются один раз — UI и валидация
             всегда синхронны.
           </p>
+
+          <div
+            data-parallax
+            className="relative mt-20 aspect-[21/9] w-full overflow-hidden"
+          >
+            <div data-parallax-inner className="absolute inset-[-6%]">
+              <Image
+                src="/images/architecture-visual.png"
+                alt="Абстрактная визуализация архитектуры MineCMS"
+                fill
+                className="object-cover object-center"
+                sizes="100vw"
+              />
+            </div>
+          </div>
         </section>
 
         <section className="px-6 py-24 md:px-10 md:py-36">
