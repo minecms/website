@@ -1,15 +1,18 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
+import { typo } from "@/lib/typography";
 
 export const metadata: Metadata = {
-  title: "MineCMS — CMS со схемами в коде",
-  description:
+  title: typo("MineCMS — CMS со схемами в коде"),
+  description: typo(
     "Один minecms.config.ts — админка Studio, REST и tRPC API, типизированный SDK через InferSchemaType. PostgreSQL 16, MySQL 8, Drizzle ORM, Fastify v5. На вашем сервере, лицензия MIT.",
+  ),
   openGraph: {
     title: "MineCMS",
-    description:
+    description: typo(
       "CMS без готовой вёрстки на TypeScript. Схемы в коде, свой сервер, открытый исходный код — админка, API и типы из одного конфига.",
+    ),
     url: "https://minecms.ru",
     siteName: "MineCMS",
     locale: "ru_RU",

@@ -6,6 +6,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
+import { typo } from "@/lib/typography";
 import { SmoothScroll } from "./smooth-scroll";
 import { HeroVideo } from "./hero-background";
 
@@ -14,31 +15,35 @@ gsap.registerPlugin(ScrollTrigger);
 const CREATE_CMD_HERO = `npx @minecms/create-minecms-app`;
 const CREATE_CMD_PNPM = `pnpm create @minecms/minecms-app my-app -- --next -y`;
 const CREATE_CMD_NPX = `npx @minecms/create-minecms-app my-app -- --next -y`;
-const CREATE_CMD_BLOCK = `${CREATE_CMD_PNPM}\n# или\n${CREATE_CMD_NPX}`;
+const CREATE_CMD_BLOCK = `${CREATE_CMD_PNPM}\n# ${typo("или")}\n${CREATE_CMD_NPX}`;
 
 const USE_CASES = [
   {
-    title: "Ядро",
-    description:
+    title: typo("Ядро"),
+    description: typo(
       "Пакет @minecms/core: defineSchema, defineField и defineConfig описывают модели в TypeScript. Отсюда же берутся Zod-валидаторы и миграции Drizzle — одно место, где задаётся структура контента.",
+    ),
     href: "https://github.com/minecms/minecms/tree/main/packages/core",
   },
   {
-    title: "Сервер",
-    description:
+    title: typo("Сервер"),
+    description: typo(
       "Сервер на Fastify v5: REST и tRPC v11, сессии через подписанные cookie. PostgreSQL 16 или MySQL 8 через Drizzle ORM. CRUD, медиа в MinIO и права доступа — всё из тех же схем, что в конфиге.",
+    ),
     href: "https://github.com/minecms/minecms/tree/main/apps/server",
   },
   {
     title: "Studio",
-    description:
+    description: typo(
       "Админка на Vite 8 и React 19. Списки, формы и поля собираются из minecms.config.ts — изменили схему в коде, интерфейс обновился сам, без ручной вёрстки под каждый тип документа.",
+    ),
     href: "https://github.com/minecms/minecms/tree/main/apps/studio",
   },
   {
     title: "SDK",
-    description:
+    description: typo(
       "Типизированный REST-клиент: InferSchemaType выводит типы документов прямо из схем. Пакеты @minecms/sdk, sdk-next и sdk-nuxt — на фронте те же типы, что на сервере, без ручного дублирования.",
+    ),
     href: "https://github.com/minecms/minecms/tree/main/packages/sdk",
   },
 ] as const;
@@ -46,29 +51,32 @@ const USE_CASES = [
 const MEET_FEATURES = [
   {
     label: "defineSchema",
-    title: "Модели контента — в коде, рядом с приложением",
-    description:
+    title: typo("Модели контента — в коде, рядом с приложением"),
+    description: typo(
       "Что: defineSchema, defineField и defineConfig описывают поля, связи и права в TypeScript. Как: схемы лежат в git, проходят ревью кода; @minecms/core собирает из них Zod-валидаторы и миграции Drizzle. Зачем: структура контента версионируется вместе с проектом — не в отдельной админке и не в чужом облаке.",
+    ),
     image: "/images/studio-visual.png",
-    imageAlt: "Схемы MineCMS в коде",
+    imageAlt: typo("Схемы MineCMS в коде"),
     reverse: false,
   },
   {
     label: "Studio",
-    title: "Админка собирается из схем автоматически",
-    description:
+    title: typo("Админка собирается из схем автоматически"),
+    description: typo(
       "Что: панель управления с динамическими списками, формами и медиа. Как: мастер установки создаёт администратора и прогоняет миграции; tRPC связывает интерфейс с сервером в реальном времени. Зачем: контент-команда работает с готовым интерфейсом — разработчикам не нужно вёрстать форму под каждый тип документа.",
+    ),
     image: "/images/install-visual.png",
-    imageAlt: "Мастер установки MineCMS Studio",
+    imageAlt: typo("Мастер установки MineCMS Studio"),
     reverse: true,
   },
   {
     label: "SDK & API",
-    title: "REST, tRPC и типы — из одного minecms.config.ts",
-    description:
+    title: typo("REST, tRPC и типы — из одного minecms.config.ts"),
+    description: typo(
       "Что: сервер отдаёт CRUD через REST и tRPC v11, SDK типизирует ответы через InferSchemaType. Как: сервер читает схемы один раз при старте — эндпоинты, валидация и типы на клиенте совпадают. Зачем: фронт и API не расходятся — поменяли поле в схеме, TypeScript сразу покажет, где обновить код.",
+    ),
     image: "/images/architecture-visual.png",
-    imageAlt: "Архитектура MineCMS: ядро, сервер, Studio, SDK",
+    imageAlt: typo("Архитектура MineCMS: ядро, сервер, Studio, SDK"),
     reverse: false,
   },
 ] as const;
@@ -85,10 +93,10 @@ const STACK = [
 ] as const;
 
 const MARQUEE = [
-  "схемы в коде",
-  "на вашем сервере",
+  typo("схемы в коде"),
+  typo("на вашем сервере"),
   "MIT",
-  "открытый исходный код",
+  typo("открытый исходный код"),
   "Fastify",
   "tRPC",
   "Drizzle",
@@ -126,9 +134,9 @@ function CopyButton({ text }: { text: string }) {
       type="button"
       onClick={copy}
       className="shrink-0 rounded-md px-3 py-1.5 text-xs text-white/70 transition-colors hover:bg-black hover:text-white"
-      aria-label="Скопировать команду"
+      aria-label={typo("Скопировать команду")}
     >
-      Копировать
+      {typo("Копировать")}
     </button>
   );
 }
@@ -223,8 +231,9 @@ export function LandingPage() {
                 data-hero-fade
                 className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/80 md:text-lg"
               >
-                Система управления контентом на вашем сервере. Опишите структуру
-                в коде — получите админку и API без чужих облаков.
+                {typo(
+                  "Система управления контентом на вашем сервере. Опишите структуру в коде — получите админку и API без чужих облаков.",
+                )}
               </p>
 
               <div
@@ -249,7 +258,7 @@ export function LandingPage() {
                   size="lg"
                   className="h-10 bg-white px-5 text-black hover:bg-black hover:text-white"
                 >
-                  Быстрый старт
+                  {typo("Быстрый старт")}
                 </Button>
                 <Button
                   nativeButton={false}
@@ -264,7 +273,7 @@ export function LandingPage() {
                   size="lg"
                   className="h-10 border-white/25 bg-transparent px-5 text-white hover:bg-black hover:text-white"
                 >
-                  Документация →
+                  {typo("Документация →")}
                 </Button>
               </div>
             </div>
@@ -278,9 +287,9 @@ export function LandingPage() {
               data-reveal
               className="text-center text-sm leading-relaxed text-[#121212]/75 md:text-base"
             >
-              Открытая CMS на вашем сервере: PostgreSQL или MySQL, данные и медиа
-              у вас. Схемы контента — в коде рядом с проектом, без чужих облаков
-              и ежемесячных подписок.
+              {typo(
+                "Открытая CMS на вашем сервере: PostgreSQL или MySQL, данные и медиа у вас. Схемы контента — в коде рядом с проектом, без чужих облаков и ежемесячных подписок.",
+              )}
             </p>
           </Shell>
         </section>
@@ -305,27 +314,25 @@ export function LandingPage() {
               className="grid gap-12 md:grid-cols-2 md:gap-16 lg:gap-24"
             >
               <div>
-                <SectionLabel>Разработчикам</SectionLabel>
+                <SectionLabel>{typo("Разработчикам")}</SectionLabel>
                 <h2 className="mt-4 text-balance text-[clamp(1.5rem,3.5vw,2.25rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-                  TypeScript, git и типы без расхождений
+                  {typo("TypeScript, git и типы без расхождений")}
                 </h2>
                 <p className="mt-5 text-base leading-[1.8] text-[#121212]/75">
-                  defineSchema, defineField и defineConfig — схемы в репозитории,
-                  миграции Drizzle из того же конфига, InferSchemaType на клиенте.
-                  Fastify + tRPC + REST: типы на фронте и в API совпадают, потому
-                  что оба читают один minecms.config.ts.
+                  {typo(
+                    "defineSchema, defineField и defineConfig — схемы в репозитории, миграции Drizzle из того же конфига, InferSchemaType на клиенте. Fastify + tRPC + REST: типы на фронте и в API совпадают, потому что оба читают один minecms.config.ts.",
+                  )}
                 </p>
               </div>
               <div>
-                <SectionLabel>Контент-командам</SectionLabel>
+                <SectionLabel>{typo("Контент-командам")}</SectionLabel>
                 <h2 className="mt-4 text-balance text-[clamp(1.5rem,3.5vw,2.25rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-                  Studio — готовая админка из ваших схем
+                  {typo("Studio — готовая админка из ваших схем")}
                 </h2>
                 <p className="mt-5 text-base leading-[1.8] text-[#121212]/75">
-                  Динамические списки, формы и медиа с превью в полный экран.
-                  Мастер установки за минуты: PostgreSQL 16, администратор,
-                  миграции — и можно создавать документы. CRUD по схемам без
-                  отдельной вёрстки под каждый тип контента.
+                  {typo(
+                    "Динамические списки, формы и медиа с превью в полный экран. Мастер установки за минуты: PostgreSQL 16, администратор, миграции — и можно создавать документы. CRUD по схемам без отдельной вёрстки под каждый тип контента.",
+                  )}
                 </p>
               </div>
             </div>
@@ -336,15 +343,14 @@ export function LandingPage() {
         <section className="bg-[#fafafa] py-20 md:py-28">
           <Shell>
             <div data-reveal className="mx-auto max-w-3xl text-center">
-              <SectionLabel>Платформа</SectionLabel>
+              <SectionLabel>{typo("Платформа")}</SectionLabel>
               <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-                Ядро, Сервер, Studio и SDK — один конфиг
+                {typo("Ядро, Сервер, Studio и SDK — один конфиг")}
               </h2>
               <p className="mt-5 text-base leading-[1.8] text-[#121212]/75 md:text-lg">
-                minecms.config.ts описывает модели один раз. @minecms/core
-                собирает валидаторы и миграции, сервер отдаёт API, Studio
-                рисует админку, SDK типизирует клиент — четыре части читают
-                одни и те же схемы.
+                {typo(
+                  "minecms.config.ts описывает модели один раз. @minecms/core собирает валидаторы и миграции, сервер отдаёт API, Studio рисует админку, SDK типизирует клиент — четыре части читают одни и те же схемы.",
+                )}
               </p>
             </div>
 
@@ -363,7 +369,7 @@ export function LandingPage() {
                     rel="noreferrer"
                     className="mt-4 inline-flex items-center gap-1.5 text-sm text-[#121212] transition-opacity hover:opacity-55"
                   >
-                    Подробнее
+                    {typo("Подробнее")}
                     <span aria-hidden>→</span>
                   </Link>
                 </article>
@@ -376,13 +382,14 @@ export function LandingPage() {
         <section className="py-20 md:py-28">
           <Shell>
             <div data-reveal className="mx-auto max-w-3xl text-center">
-              <SectionLabel>Стек</SectionLabel>
+              <SectionLabel>{typo("Стек")}</SectionLabel>
               <h2 className="mt-4 text-balance text-[clamp(1.75rem,3.5vw,2.5rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-                Современный стек без лишних прослоек
+                {typo("Современный стек без лишних прослоек")}
               </h2>
               <p className="mt-5 text-base leading-[1.8] text-[#121212]/75 md:text-lg">
-                Node 24 LTS, Fastify v5, tRPC v11, Drizzle ORM — PostgreSQL 16
-                или MySQL 8, React 19 на фронте, шаблоны под Next.js и Nuxt.
+                {typo(
+                  "Node 24 LTS, Fastify v5, tRPC v11, Drizzle ORM — PostgreSQL 16 или MySQL 8, React 19 на фронте, шаблоны под Next.js и Nuxt.",
+                )}
               </p>
             </div>
             <div
@@ -407,11 +414,12 @@ export function LandingPage() {
             <div data-reveal className="mx-auto max-w-3xl text-center">
               <SectionLabel>MineCMS</SectionLabel>
               <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-                Как устроена MineCMS
+                {typo("Как устроена MineCMS")}
               </h2>
               <p className="mt-5 text-base leading-[1.8] text-[#121212]/75 md:text-lg">
-                От defineSchema в коде до типизированного SDK на клиенте — один
-                конфиг связывает админку, API и фронт.
+                {typo(
+                  "От defineSchema в коде до типизированного SDK на клиенте — один конфиг связывает админку, API и фронт.",
+                )}
               </p>
             </div>
 
@@ -459,23 +467,21 @@ export function LandingPage() {
               data-reveal
               className="mx-auto max-w-3xl text-center"
             >
-              <SectionLabel>Философия</SectionLabel>
+              <SectionLabel>{typo("Философия")}</SectionLabel>
               <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-                Контент под вашим контролем
+                {typo("Контент под вашим контролем")}
               </h2>
               <p className="mt-6 text-base leading-[1.85] text-[#121212]/75 md:text-lg">
-                MineCMS — открытая CMS без готовой вёрстки, лицензия MIT. Данные
-                на вашем сервере: PostgreSQL 16 или MySQL 8, медиа в MinIO.
-                Схемы лежат в репозитории рядом с приложением — ревью кода
-                вместо правок в чужой админке. Без облачных подписок и
-                привязки к чужой платформе.
+                {typo(
+                  "MineCMS — открытая CMS без готовой вёрстки, лицензия MIT. Данные на вашем сервере: PostgreSQL 16 или MySQL 8, медиа в MinIO. Схемы лежат в репозитории рядом с приложением — ревью кода вместо правок в чужой админке. Без облачных подписок и привязки к чужой платформе.",
+                )}
               </p>
               <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-[#121212]/75">
-                <li>Лицензия MIT</li>
-                <li>На вашем сервере</li>
-                <li>Открытый исходный код</li>
-                <li>Схемы в коде</li>
-                <li>PostgreSQL и MySQL</li>
+                <li>{typo("Лицензия MIT")}</li>
+                <li>{typo("На вашем сервере")}</li>
+                <li>{typo("Открытый исходный код")}</li>
+                <li>{typo("Схемы в коде")}</li>
+                <li>{typo("PostgreSQL и MySQL")}</li>
               </ul>
             </div>
           </Shell>
@@ -489,13 +495,12 @@ export function LandingPage() {
           <Shell>
             <div data-reveal className="mx-auto max-w-3xl text-center">
               <h2 className="text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-                Запуск за одну команду
+                {typo("Запуск за одну команду")}
               </h2>
               <p className="mt-5 text-base leading-[1.8] text-white/80 md:text-lg">
-                Node 24+, pnpm 10+, Docker. Шаблон --next создаёт репозиторий с
-                cms/ и web/: Docker Compose поднимает PostgreSQL и MinIO, мастер
-                установки в Studio — и документ сразу доступен через REST, tRPC
-                и SDK.
+                {typo(
+                  "Node 24+, pnpm 10+, Docker. Шаблон --next создаёт репозиторий с cms/ и web/: Docker Compose поднимает PostgreSQL и MinIO, мастер установки в Studio — и документ сразу доступен через REST, tRPC и SDK.",
+                )}
               </p>
 
               <pre className="mx-auto mt-10 max-w-xl overflow-x-auto rounded-lg border border-white/10 bg-white/5 px-5 py-4 text-left font-mono text-[13px] leading-[1.9] text-white/85">
@@ -506,7 +511,7 @@ pnpm dev
 
 # Studio  → http://localhost:3333/admin
 # API     → http://localhost:3333/api
-# Сайт    → http://localhost:3000`}</code>
+# ${typo("Сайт")}    → http://localhost:3000`}</code>
               </pre>
 
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
@@ -552,7 +557,7 @@ pnpm dev
                   MineCMS
                 </p>
                 <p className="mt-3 text-sm text-white/75">
-                  MIT · Node 24+ · pnpm 10+ · открытый исходный код
+                  {typo("MIT · Node 24+ · pnpm 10+ · открытый исходный код")}
                 </p>
               </div>
               <div className="flex flex-col items-center gap-3 text-sm text-white/70 md:items-end">
@@ -563,7 +568,7 @@ pnpm dev
                   hello@minecms.ru
                 </Link>
                 <p>
-                  Сделано в{" "}
+                  {typo("Сделано в")}{" "}
                   <Link
                     href="https://fubon.ru"
                     target="_blank"
