@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, type ReactNode } from "react";
 import { gsap } from "gsap";
@@ -8,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
 import { SiteNav } from "@/components/site-nav";
 import { typo } from "@/lib/typography";
+import { ImageZoom } from "@/components/ui/image-zoom";
 import { SmoothScroll } from "./smooth-scroll";
 import { HeroVideo } from "./hero-background";
 
@@ -56,8 +56,8 @@ const MEET_FEATURES = [
     description: typo(
       "Что: defineSchema, defineField и defineConfig описывают поля, связи и права в TypeScript. Как: схемы лежат в git, проходят ревью кода; @minecms/core собирает из них Zod-валидаторы и миграции Drizzle. Зачем: структура контента версионируется вместе с проектом — не в отдельной админке и не в чужом облаке.",
     ),
-    image: "/images/studio-visual.png",
-    imageAlt: typo("Схемы MineCMS в коде"),
+    image: "/images/minecms-admin-1.png",
+    imageAlt: typo("Список документов в MineCMS Studio"),
     reverse: false,
   },
   {
@@ -66,8 +66,8 @@ const MEET_FEATURES = [
     description: typo(
       "Что: панель управления с динамическими списками, формами и медиа. Как: мастер установки создаёт администратора и прогоняет миграции; tRPC связывает интерфейс с сервером в реальном времени. Зачем: контент-команда работает с готовым интерфейсом — разработчикам не нужно вёрстать форму под каждый тип документа.",
     ),
-    image: "/images/install-visual.png",
-    imageAlt: typo("Мастер установки MineCMS Studio"),
+    image: "/images/minecms-admin-2.png",
+    imageAlt: typo("Редактор документа в MineCMS Studio"),
     reverse: true,
   },
   {
@@ -76,8 +76,8 @@ const MEET_FEATURES = [
     description: typo(
       "Что: сервер отдаёт CRUD через REST и tRPC v11, SDK типизирует ответы через InferSchemaType. Как: сервер читает схемы один раз при старте — эндпоинты, валидация и типы на клиенте совпадают. Зачем: фронт и API не расходятся — поменяли поле в схеме, TypeScript сразу покажет, где обновить код.",
     ),
-    image: "/images/architecture-visual.png",
-    imageAlt: typo("Архитектура MineCMS: ядро, сервер, Studio, SDK"),
+    image: "/images/minecms-admin-3.png",
+    imageAlt: typo("Медиатека MineCMS Studio"),
     reverse: false,
   },
 ] as const;
@@ -430,12 +430,11 @@ export function LandingPage() {
                       feature.reverse ? "lg:[direction:ltr]" : ""
                     }`}
                   >
-                    <Image
+                    <ImageZoom
                       src={feature.image}
                       alt={feature.imageAlt}
                       fill
                       className="object-cover object-center"
-                      sizes="(max-width: 1024px) 100vw, 50vw"
                     />
                   </div>
                 </div>
