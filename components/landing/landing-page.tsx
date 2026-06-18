@@ -563,7 +563,7 @@ pnpm dev
                   hello@minecms.ru
                 </Link>
                 <p>
-                  Проект{" "}
+                  Сделано в{" "}
                   <Link
                     href="https://fubon.ru"
                     target="_blank"
@@ -572,7 +572,6 @@ pnpm dev
                   >
                     Fubon
                   </Link>
-                  .
                 </p>
               </div>
             </div>
