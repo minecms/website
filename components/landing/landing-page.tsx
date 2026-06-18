@@ -213,22 +213,9 @@ export function LandingPage() {
 
           <Shell className="relative z-10 flex min-h-[100svh] flex-col justify-center pb-24 pt-32 md:pb-32 md:pt-36">
             <div className="mx-auto w-full max-w-4xl text-center">
-              <p
-                data-hero-fade
-                className="mb-6 text-[13px] tracking-wide text-white/75"
-              >
-                CMS без готовой вёрстки · TypeScript · свой сервер · MIT
-              </p>
-
-              <h1 className="text-balance text-[clamp(2.25rem,6.5vw,4.75rem)] font-normal leading-[1.05] tracking-[-0.04em] text-white">
+              <h1 className="text-balance text-[clamp(3rem,8vw,6rem)] font-normal leading-[1.05] tracking-[-0.04em] text-white">
                 <span data-hero-line className="block">
-                  Один minecms.config.ts —
-                </span>
-                <span data-hero-line className="block text-white/80">
-                  админка, API
-                </span>
-                <span data-hero-line className="block">
-                  и типы на клиенте.
+                  MineCMS
                 </span>
               </h1>
 
@@ -236,10 +223,8 @@ export function LandingPage() {
                 data-hero-fade
                 className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/80 md:text-lg"
               >
-                defineSchema описывает модели контента в TypeScript. @minecms/core
-                собирает из них валидаторы и миграции, сервер отдаёт REST и tRPC,
-                Studio рисует админку, SDK подставляет типы через InferSchemaType —
-                всё из одного конфига, без ручного дублирования.
+                Система управления контентом на вашем сервере. Опишите структуру
+                в коде — получите админку и API без чужих облаков.
               </p>
 
               <div
