@@ -562,6 +562,18 @@ pnpm dev
                 >
                   hello@minecms.ru
                 </Link>
+                <p>
+                  Проект{" "}
+                  <Link
+                    href="https://fubon.ru"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="transition-opacity hover:text-white/70"
+                  >
+                    Fubon
+                  </Link>
+                  .
+                </p>
                 <div className="flex gap-5">
                   <Link
                     href="https://github.com/minecms/minecms"
