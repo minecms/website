@@ -51,7 +51,7 @@ export function SectionIntro({
   return (
     <div
       {...props}
-      className={`${align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-2xl"} ${className}`}
+      className={`${align === "center" ? "mx-auto max-w-4xl text-center" : "max-w-4xl"} ${className}`}
     >
       {children}
     </div>

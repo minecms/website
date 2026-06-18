@@ -10,19 +10,19 @@ export function SiteNav({ variant = "default" }: SiteNavProps) {
 
   return (
     <nav
-      className={`flex items-center gap-6 text-[13px] tracking-wide ${
+      className={`flex items-center gap-6 text-[13px] tracking-wide transition-colors duration-300 ${
         isHero ? "text-white/80" : "text-[#121212]/70"
       }`}
     >
       <Link
         href="/versions"
-        className={`transition-opacity ${isHero ? "hover:text-white" : "hover:text-[#121212]"}`}
+        className={`transition-colors duration-300 ${isHero ? "hover:text-white" : "hover:text-[#121212]"}`}
       >
         {typo("Версии")}
       </Link>
       <Link
         href="https://github.com/minecms/minecms"
-        className={`transition-opacity ${isHero ? "hover:text-white" : "hover:text-[#121212]"}`}
+        className={`transition-colors duration-300 ${isHero ? "hover:text-white" : "hover:text-[#121212]"}`}
         target="_blank"
         rel="noreferrer"
       >
@@ -30,7 +30,7 @@ export function SiteNav({ variant = "default" }: SiteNavProps) {
       </Link>
       <Link
         href="https://www.npmjs.com/org/minecms"
-        className={`transition-opacity ${isHero ? "hover:text-white" : "hover:text-[#121212]"}`}
+        className={`transition-colors duration-300 ${isHero ? "hover:text-white" : "hover:text-[#121212]"}`}
         target="_blank"
         rel="noreferrer"
       >

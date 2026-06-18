@@ -5,10 +5,9 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
-import { SiteNav } from "@/components/site-nav";
 import { typo } from "@/lib/typography";
 import { ImageZoom } from "@/components/ui/image-zoom";
-import { SmoothScroll } from "./smooth-scroll";
+import { ScrollProvider } from "./scroll-provider";
 import { HeroVideo } from "./hero-background";
 import {
   Container,
@@ -241,52 +240,32 @@ export function LandingPage() {
   }, []);
 
   return (
-    <SmoothScroll>
+    <ScrollProvider>
       <div ref={rootRef} className="landing bg-white text-[#121212]">
-        {/* Header */}
-        <header className="fixed inset-x-0 top-0 z-40">
-          <Container className="flex items-center justify-between py-6 md:py-8">
-            <Link
-              href="/"
-              className="text-[13px] font-medium tracking-[0.22em] uppercase text-white transition-opacity hover:opacity-60"
-            >
-              MineCMS
-            </Link>
-            <SiteNav variant="hero" />
-          </Container>
-        </header>
-
         {/* 1. Hero */}
-        <Section className="relative min-h-svh overflow-hidden bg-black">
+        <Section id="hero" className="relative min-h-svh overflow-hidden bg-black">
           <HeroVideo />
 
-          <Container className="relative z-10 flex min-h-svh flex-col justify-end pb-16 pt-32 md:pb-24 md:pt-40 lg:justify-center lg:pb-32">
-            <div className="max-w-3xl">
-              <SectionLabel invert>MineCMS</SectionLabel>
-              <h1 className="mt-6 text-balance text-[clamp(3.25rem,9vw,7.5rem)] font-normal leading-[0.98] tracking-[-0.045em] text-white">
+          <Container className="relative z-10 flex min-h-svh flex-col justify-center pb-24 pt-32 md:pb-32 md:pt-36">
+            <div className="w-full text-center">
+              <h1 className="text-balance text-[clamp(3rem,8vw,6rem)] font-normal leading-[1.05] tracking-[-0.04em] text-white">
                 <span data-hero-line className="block">
-                  {typo("Headless CMS")}
-                </span>
-                <span
-                  data-hero-line
-                  className="mt-1 block text-white/55 md:mt-2"
-                >
-                  {typo("на вашем сервере")}
+                  MineCMS
                 </span>
               </h1>
 
-              <p
+              <h2
                 data-hero-fade
-                className="mt-8 max-w-xl text-base leading-[1.8] text-white/75 md:text-lg md:leading-[1.85]"
+                className="mt-8 w-full text-balance font-normal text-[clamp(1.75rem,4vw,3rem)] leading-[1.15] tracking-[-0.03em] text-white/80"
               >
                 {typo(
-                  "Опишите структуру контента в коде — получите Studio, REST API и типизированный SDK. Без чужих облаков и подписок.",
+                  "Система управления контентом на вашем сервере. Опишите структуру в коде — получите админку и API без чужих облаков.",
                 )}
-              </p>
+              </h2>
 
-              <div data-hero-fade className="mt-10 max-w-xl">
-                <div className="flex w-full min-w-0 items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-4 py-3 font-mono text-[13px] text-white/80 backdrop-blur-sm">
-                  <code className="min-w-0 flex-1 truncate">
+              <div data-hero-fade className="mt-10 flex justify-center">
+                <div className="inline-flex max-w-[calc(100vw-3rem)] items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-4 py-3 font-mono text-[13px] text-white/80">
+                  <code className="whitespace-nowrap text-left">
                     {CREATE_CMD_HERO}
                   </code>
                   <CopyButton text={CREATE_CMD_HERO} />
@@ -295,13 +274,13 @@ export function LandingPage() {
 
               <div
                 data-hero-fade
-                className="mt-8 flex flex-wrap items-center gap-4"
+                className="mt-8 flex flex-wrap items-center justify-center gap-4"
               >
                 <Button
                   nativeButton={false}
                   render={<Link href="#start" />}
                   size="lg"
-                  className="h-11 bg-white px-6 text-black hover:bg-black hover:text-white"
+                  className="h-10 bg-white px-5 text-black hover:bg-black hover:text-white"
                 >
                   {typo("Быстрый старт")}
                 </Button>
@@ -316,7 +295,7 @@ export function LandingPage() {
                   }
                   variant="outline"
                   size="lg"
-                  className="h-11 border-white/25 bg-transparent px-6 text-white hover:bg-black hover:text-white"
+                  className="h-10 border-white/25 bg-transparent px-5 text-white hover:bg-black hover:text-white"
                 >
                   {typo("Документация →")}
                 </Button>
@@ -358,7 +337,7 @@ export function LandingPage() {
               data-reveal
               className="grid gap-16 border-t border-[#121212]/8 pt-16 md:grid-cols-2 md:gap-20 md:pt-20 lg:gap-28"
             >
-              <div className="max-w-md">
+              <div>
                 <SectionLabel>{typo("Разработчикам")}</SectionLabel>
                 <SectionTitle className="mt-5">
                   {typo("TypeScript, git и типы без расхождений")}
@@ -369,7 +348,7 @@ export function LandingPage() {
                   )}
                 </p>
               </div>
-              <div className="max-w-md md:justify-self-end">
+              <div>
                 <SectionLabel>{typo("Контент-командам")}</SectionLabel>
                 <SectionTitle className="mt-5">
                   {typo("Studio — готовая админка из ваших схем")}
@@ -387,21 +366,21 @@ export function LandingPage() {
         {/* 4. Use cases grid */}
         <Section className="border-t border-[#121212]/8 bg-[#fafafa] py-24 md:py-32 lg:py-40">
           <Container>
-            <SectionIntro data-reveal align="left" className="max-w-2xl">
+            <div data-reveal className="w-full">
               <SectionLabel>{typo("Платформа")}</SectionLabel>
-              <SectionTitle className="mt-5">
+              <SectionTitle className="mt-5 w-full">
                 {typo("Ядро, Сервер, Studio и SDK — один конфиг")}
               </SectionTitle>
-              <p className="mt-6 text-base leading-[1.85] text-[#121212]/75 md:text-lg">
+              <p className="mt-6 max-w-4xl text-base leading-[1.85] text-[#121212]/75 md:text-lg">
                 {typo(
                   "minecms.config.ts описывает модели один раз. @minecms/core собирает валидаторы и миграции, сервер отдаёт API, Studio рисует админку, SDK типизирует клиент — четыре части читают одни и те же схемы.",
                 )}
               </p>
-            </SectionIntro>
+            </div>
 
-            <div className="mt-16 grid gap-12 border-t border-[#121212]/8 pt-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10 lg:pt-20">
+            <div className="mt-16 grid gap-12 border-t border-[#121212]/8 pt-16 sm:grid-cols-2 lg:gap-x-16 lg:gap-y-14 lg:pt-20">
               {USE_CASES.map((item) => (
-                <article key={item.title} data-reveal className="max-w-sm">
+                <article key={item.title} data-reveal>
                   <h3 className="text-xl tracking-[-0.02em] md:text-2xl">
                     {item.title}
                   </h3>
@@ -426,7 +405,7 @@ export function LandingPage() {
         {/* 5. Stack showcase */}
         <Section className="py-24 md:py-32 lg:py-40">
           <Container>
-            <SectionIntro data-reveal align="left" className="max-w-2xl">
+            <SectionIntro data-reveal align="left">
               <SectionLabel>{typo("Стек")}</SectionLabel>
               <SectionTitle className="mt-5">
                 {typo("Современный стек без лишних прослоек")}
@@ -456,7 +435,7 @@ export function LandingPage() {
         {/* 5b. UI / Design system */}
         <Section className="border-y border-[#121212]/8 bg-[#fafafa] py-24 md:py-32 lg:py-40">
           <Container>
-            <SectionIntro data-reveal align="left" className="max-w-2xl">
+            <SectionIntro data-reveal align="left">
               <SectionLabel>Studio</SectionLabel>
               <SectionTitle className="mt-5">
                 {typo("Интерфейс MineCMS Studio")}
@@ -483,7 +462,7 @@ export function LandingPage() {
           <Container>
             <div className="mt-16 grid gap-12 border-t border-[#121212]/8 pt-16 sm:grid-cols-2 lg:gap-x-16 lg:gap-y-14 lg:pt-20">
               {UI_TECH.map((item) => (
-                <article key={item.title} data-reveal className="max-w-lg">
+                <article key={item.title} data-reveal>
                   <SectionLabel>{item.label}</SectionLabel>
                   <h3 className="mt-3 text-xl tracking-[-0.02em] md:text-2xl">
                     {item.title}
@@ -503,7 +482,7 @@ export function LandingPage() {
         {/* 6. Meet the CMS — full-bleed feature showcases */}
         <Section className="py-24 md:py-32 lg:py-40">
           <Container className="mb-16 md:mb-24">
-            <SectionIntro data-reveal align="left" className="max-w-2xl">
+            <SectionIntro data-reveal align="left">
               <SectionLabel>MineCMS</SectionLabel>
               <SectionTitle className="mt-5">
                 {typo("Как устроена MineCMS")}
@@ -521,7 +500,7 @@ export function LandingPage() {
               <div
                 key={feature.label}
                 data-reveal
-                className={`grid min-h-[min(88svh,920px)] lg:grid-cols-2 ${
+                className={`grid lg:grid-cols-2 lg:items-start ${
                   index > 0 ? "border-t border-[#121212]/8" : ""
                 }`}
               >
@@ -530,7 +509,7 @@ export function LandingPage() {
                     feature.reverse ? "lg:order-2" : ""
                   }`}
                 >
-                  <div className="max-w-md">
+                  <div>
                     <SectionLabel>{feature.label}</SectionLabel>
                     <h3 className="mt-5 text-balance text-[clamp(1.75rem,3.5vw,2.75rem)] font-normal leading-[1.12] tracking-[-0.04em]">
                       {feature.title}
@@ -541,15 +520,14 @@ export function LandingPage() {
                   </div>
                 </div>
                 <div
-                  className={`relative min-h-[280px] bg-[#121212]/[0.03] sm:min-h-[360px] lg:min-h-0 ${
-                    feature.reverse ? "lg:order-1" : ""
+                  className={`px-6 py-16 md:px-10 md:py-24 lg:px-16 lg:py-28 xl:px-24 ${
+                    feature.reverse ? "lg:order-1 lg:pl-8 xl:pl-12" : "lg:pr-8 xl:pr-12"
                   }`}
                 >
                   <ImageZoom
                     src={feature.image}
                     alt={feature.imageAlt}
-                    fill
-                    className="object-cover object-top"
+                    className="h-auto w-full"
                   />
                 </div>
               </div>
@@ -560,7 +538,7 @@ export function LandingPage() {
         {/* 7. Philosophy */}
         <Section className="bg-black py-24 text-white md:py-32 lg:py-40">
           <Container>
-            <SectionIntro data-reveal align="left" className="max-w-2xl">
+            <SectionIntro data-reveal align="left">
               <SectionLabel invert>{typo("Философия")}</SectionLabel>
               <SectionTitle className="mt-5 text-white">
                 {typo("Контент под вашим контролем")}
@@ -587,7 +565,7 @@ export function LandingPage() {
           className="border-t border-white/10 bg-black py-24 text-white md:py-32 lg:py-40"
         >
           <Container>
-            <SectionIntro data-reveal align="left" className="max-w-2xl">
+            <SectionIntro data-reveal align="left">
               <SectionTitle className="text-white">
                 {typo("Запуск за одну команду")}
               </SectionTitle>
@@ -597,7 +575,7 @@ export function LandingPage() {
                 )}
               </p>
 
-              <pre className="mt-10 max-w-xl overflow-x-auto rounded-lg border border-white/10 bg-white/5 px-5 py-4 font-mono text-[13px] leading-[1.9] text-white/85">
+              <pre className="mt-10 max-w-2xl overflow-x-auto rounded-lg border border-white/10 bg-white/5 px-5 py-4 font-mono text-[13px] leading-[1.9] text-white/85">
                 <code>{`${CREATE_CMD_BLOCK}
 cd my-app
 docker compose -f cms/docker-compose.yml up -d
@@ -683,6 +661,6 @@ pnpm dev
           </Container>
         </footer>
       </div>
-    </SmoothScroll>
+    </ScrollProvider>
   );
 }

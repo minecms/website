@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
+import { SiteHeader } from "@/components/site-header";
 import { cn } from "@/lib/utils";
 import { typo } from "@/lib/typography";
 
@@ -27,7 +28,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru" className={cn("h-full", "antialiased")}>
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        <SiteHeader />
+        {children}
+      </body>
     </html>
   );
 }

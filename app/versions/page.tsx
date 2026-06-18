@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SiteNav } from "@/components/site-nav";
 import { SiteShell } from "@/components/site-shell";
 import { typo } from "@/lib/typography";
 
@@ -65,18 +64,6 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 export default function VersionsPage() {
   return (
     <div className="min-h-screen bg-white text-[#121212]">
-      <header className="border-b border-[#121212]/8">
-        <SiteShell className="flex items-center justify-between py-6 md:py-7">
-          <Link
-            href="/"
-            className="text-[13px] font-medium tracking-[0.22em] uppercase text-[#121212] transition-opacity hover:opacity-60"
-          >
-            MineCMS
-          </Link>
-          <SiteNav />
-        </SiteShell>
-      </header>
-
       <main>
         <SiteShell className="py-16 md:py-24">
           <div className="mx-auto max-w-3xl">
@@ -159,24 +146,26 @@ export default function VersionsPage() {
           <section className="mx-auto mt-16 max-w-3xl">
             <SectionLabel>{typo("История")}</SectionLabel>
             <div className="mt-6 space-y-10">
-              {CHANGELOG.map((entry) => (
-                <div key={entry.version}>
-                  <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                    <h2 className="font-mono text-lg tracking-[-0.02em] md:text-xl">
-                      {entry.version}
-                    </h2>
-                    <span className="text-sm text-[#121212]/55">{entry.date}</span>
+              {CHANGELOG.filter((entry) => entry.version !== CURRENT_VERSION).map(
+                (entry) => (
+                  <div key={entry.version}>
+                    <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                      <h2 className="font-mono text-lg tracking-[-0.02em] md:text-xl">
+                        {entry.version}
+                      </h2>
+                      <span className="text-sm text-[#121212]/55">{entry.date}</span>
+                    </div>
+                    <ul className="mt-3 space-y-2 text-[15px] leading-[1.75] text-[#121212]/75">
+                      {entry.items.map((item) => (
+                        <li key={item} className="flex gap-3">
+                          <span className="text-[#121212]/40" aria-hidden>·</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="mt-3 space-y-2 text-[15px] leading-[1.75] text-[#121212]/75">
-                    {entry.items.map((item) => (
-                      <li key={item} className="flex gap-3">
-                        <span className="text-[#121212]/40" aria-hidden>·</span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+                ),
+              )}
             </div>
           </section>
 
