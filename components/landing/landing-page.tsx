@@ -11,6 +11,7 @@ import { HeroVideo } from "./hero-background";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const CREATE_CMD_HERO = `npx @minecms/create-minecms-app`;
 const CREATE_CMD_PNPM = `pnpm create @minecms/minecms-app my-app -- --next -y`;
 const CREATE_CMD_NPX = `npx @minecms/create-minecms-app my-app -- --next -y`;
 const CREATE_CMD_BLOCK = `${CREATE_CMD_PNPM}\n# или\n${CREATE_CMD_NPX}`;
@@ -245,11 +246,11 @@ export function LandingPage() {
                 data-hero-fade
                 className="mx-auto mt-10 flex max-w-xl flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:justify-center"
               >
-                <div className="flex w-full items-start gap-2 rounded-lg border border-white/15 bg-white/5 px-4 py-3 font-mono text-[13px] leading-relaxed text-white/80 sm:max-w-lg">
-                  <code className="min-w-0 flex-1 whitespace-pre-wrap text-left">
-                    {CREATE_CMD_BLOCK}
+                <div className="flex w-full items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-4 py-3 font-mono text-[13px] text-white/80 sm:max-w-lg">
+                  <code className="min-w-0 flex-1 text-left">
+                    {CREATE_CMD_HERO}
                   </code>
-                  <CopyButton text={CREATE_CMD_PNPM} />
+                  <CopyButton text={CREATE_CMD_HERO} />
                 </div>
               </div>
 
