@@ -5,65 +5,91 @@ import Link from "next/link";
 import { useEffect, useRef, type ReactNode } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Button } from "@/components/ui/button";
 import { SmoothScroll } from "./smooth-scroll";
-import { HeroBackground } from "./hero-background";
+import { HeroVideo } from "./hero-background";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const FEATURES = [
+const CREATE_CMD = `npm create @minecms/minecms-app my-app -- --next -y`;
+
+const USE_CASES = [
   {
-    num: "01",
-    title: "Schemas-as-code",
-    text: "defineSchema, defineField, defineConfig в TypeScript. Zod-валидаторы и миграции Drizzle собираются из одного контракта. Схемы в git — code review вместо кликов в админке.",
-  },
-  {
-    num: "02",
     title: "Studio",
-    text: "Vite 8 + React 19 + TanStack Router/Query + tRPC. Списки, формы и field renderers строятся динамически — правка minecms.config.ts обновляет UI без ручной вёрстки.",
+    description:
+      "Vite 8 + React 19 + TanStack Router/Query. Списки, формы и field renderers строятся из minecms.config.ts — правка схемы обновляет UI без ручной вёрстки.",
+    href: "https://github.com/minecms/minecms/tree/main/minecms/apps/studio",
   },
   {
-    num: "03",
-    title: "Server & SDK",
-    text: "Fastify v5, REST + tRPC v11, signed-cookie сессии. PostgreSQL 16 и MySQL 8 через Drizzle ORM. SDK и InferSchemaType типизируют документы на клиенте.",
+    title: "Server & API",
+    description:
+      "Fastify v5, REST + tRPC v11, signed-cookie сессии. PostgreSQL 16 и MySQL 8 через Drizzle ORM. CRUD и медиа из одного контракта схем.",
+    href: "https://github.com/minecms/minecms/tree/main/minecms/apps/server",
+  },
+  {
+    title: "SDK",
+    description:
+      "Типизированный REST-клиент с InferSchemaType. Пакеты @minecms/sdk, sdk-next и sdk-nuxt — документы на клиенте с полным выводом типов из схем.",
+    href: "https://github.com/minecms/minecms/tree/main/minecms/packages/sdk",
+  },
+  {
+    title: "CLI",
+    description:
+      "npm create @minecms/minecms-app — monorepo с cms/ и web/. Шаблоны --next, --nuxt или только CMS. Docker Compose для БД и MinIO.",
+    href: "https://www.npmjs.com/package/@minecms/create-minecms-app",
   },
 ] as const;
 
-const HERO_STACK = [
+const MEET_FEATURES = [
+  {
+    label: "defineSchema",
+    title: "Схемы в TypeScript, не в админке",
+    description:
+      "defineSchema, defineField, defineConfig — контент-модели в git с code review. Zod-валидаторы и миграции Drizzle собираются из одного контракта в @minecms/core.",
+    image: "/images/studio-visual.png",
+    imageAlt: "Схемы MineCMS в коде",
+    reverse: false,
+  },
+  {
+    label: "Studio",
+    title: "Админка из схем, без ручной вёрстки",
+    description:
+      "Install-визард создаёт администратора и прогоняет миграции. CRUD, медиа и field renderers рендерятся динамически — tRPC связывает UI с server.",
+    image: "/images/install-visual.png",
+    imageAlt: "Install-визард MineCMS Studio",
+    reverse: true,
+  },
+  {
+    label: "SDK & API",
+    title: "Один контракт — REST, tRPC и типы",
+    description:
+      "Server сериализует схемы один раз. REST и tRPC v11 отдают CRUD, SDK типизирует документы через InferSchemaType. UI, валидация и API не расходятся.",
+    image: "/images/architecture-visual.png",
+    imageAlt: "Архитектура MineCMS: core, server, studio, sdk",
+    reverse: false,
+  },
+] as const;
+
+const STACK = [
   "Node 24 LTS",
   "Fastify v5",
   "tRPC v11",
   "Drizzle ORM",
   "PostgreSQL 16",
   "MySQL 8",
-] as const;
-
-const PIPELINE = [
-  "defineSchema",
-  "@minecms/core",
-  "server",
-  "studio",
-  "sdk",
-] as const;
-
-const DEPLOY_POINTS = [
-  "PostgreSQL 16 или MySQL 8",
-  "Docker Compose для БД и MinIO",
-  "Install-визард в Studio",
-  "Миграции Drizzle из схем",
-  "Signed-cookie сессии",
+  "React 19",
+  "Next.js / Nuxt",
 ] as const;
 
 const MARQUEE = [
   "schemas-as-code",
   "self-hosted",
+  "MIT",
+  "vendor-neutral",
   "Fastify",
   "tRPC",
   "Drizzle",
-  "PostgreSQL 16",
-  "MySQL 8",
   "InferSchemaType",
-  "Next.js",
-  "Nuxt",
 ] as const;
 
 function Shell({
@@ -84,36 +110,23 @@ function Shell({
 
 function SectionLabel({ children }: { children: ReactNode }) {
   return (
-    <p className="text-[11px] uppercase tracking-[0.3em] text-[#121212]/40">
+    <p className="text-[11px] uppercase tracking-[0.28em] text-foreground/40">
       {children}
     </p>
   );
 }
 
-function SectionIntro({
-  label,
-  title,
-  children,
-  centered = true,
-}: {
-  label: string;
-  title: string;
-  children: ReactNode;
-  centered?: boolean;
-}) {
+function CopyButton({ text }: { text: string }) {
+  const copy = () => navigator.clipboard.writeText(text);
   return (
-    <div
-      data-reveal
-      className={centered ? "mx-auto max-w-3xl text-center" : "max-w-2xl"}
+    <button
+      type="button"
+      onClick={copy}
+      className="shrink-0 rounded-md px-3 py-1.5 text-xs text-white/50 transition-colors hover:bg-white/10 hover:text-white/80"
+      aria-label="Скопировать команду"
     >
-      <SectionLabel>{label}</SectionLabel>
-      <h2 className="mt-5 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
-        {title}
-      </h2>
-      <p className="mt-6 text-base leading-[1.8] text-[#121212]/55 md:text-lg">
-        {children}
-      </p>
-    </div>
+      Copy
+    </button>
   );
 }
 
@@ -123,35 +136,21 @@ export function LandingPage() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from("[data-hero-line]", {
-        y: 80,
-        opacity: 0,
-        duration: 1.1,
-        stagger: 0.12,
-        ease: "power3.out",
-        delay: 0.15,
-      });
-
-      gsap.from("[data-hero-meta]", {
-        y: 24,
-        opacity: 0,
-        duration: 0.9,
-        ease: "power2.out",
-        delay: 0.55,
-      });
-
-      gsap.from("[data-scroll-hint]", {
+        y: 60,
         opacity: 0,
         duration: 1,
-        delay: 1.2,
+        stagger: 0.1,
+        ease: "power3.out",
+        delay: 0.1,
       });
 
-      gsap.to("[data-scroll-hint]", {
-        y: 8,
-        repeat: -1,
-        yoyo: true,
-        duration: 1.4,
-        ease: "sine.inOut",
-        delay: 1.2,
+      gsap.from("[data-hero-fade]", {
+        y: 24,
+        opacity: 0,
+        duration: 0.85,
+        stagger: 0.08,
+        ease: "power2.out",
+        delay: 0.45,
       });
 
       gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
@@ -161,27 +160,10 @@ export function LandingPage() {
             start: "top 88%",
             toggleActions: "play none none none",
           },
-          y: 40,
+          y: 36,
           opacity: 0,
-          duration: 0.9,
+          duration: 0.85,
           ease: "power3.out",
-        });
-      });
-
-      gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
-        const inner = el.querySelector<HTMLElement>("[data-parallax-inner]");
-        if (!inner) return;
-
-        gsap.to(inner, {
-          scrollTrigger: {
-            trigger: el,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true,
-          },
-          y: -40,
-          scale: 1.02,
-          ease: "none",
         });
       });
     }, rootRef);
@@ -191,19 +173,20 @@ export function LandingPage() {
 
   return (
     <SmoothScroll>
-      <div ref={rootRef} className="landing relative bg-[#f4f2ee] text-[#121212]">
+      <div ref={rootRef} className="landing bg-white text-[#121212]">
+        {/* Header */}
         <header className="fixed inset-x-0 top-0 z-40">
-          <Shell className="flex items-center justify-between py-6 mix-blend-difference md:py-8">
+          <Shell className="flex items-center justify-between py-6 md:py-7">
             <Link
               href="/"
               className="text-[13px] font-medium tracking-[0.22em] uppercase text-white transition-opacity hover:opacity-60"
             >
               MineCMS
             </Link>
-            <nav className="flex items-center gap-6 text-[13px] tracking-wide text-white/80">
+            <nav className="flex items-center gap-6 text-[13px] tracking-wide text-white/70">
               <Link
                 href="https://github.com/minecms/minecms"
-                className="transition-opacity hover:opacity-60"
+                className="transition-opacity hover:text-white"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -211,7 +194,7 @@ export function LandingPage() {
               </Link>
               <Link
                 href="https://www.npmjs.com/org/minecms"
-                className="transition-opacity hover:opacity-60"
+                className="transition-opacity hover:text-white"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -221,217 +204,306 @@ export function LandingPage() {
           </Shell>
         </header>
 
-        <section className="relative min-h-[100svh] overflow-hidden pb-20 pt-32 md:pb-28 md:pt-36">
-          <HeroBackground />
-          <Shell className="relative z-10">
-            <div className="grid items-end gap-14 lg:grid-cols-2 lg:gap-16">
-              <div>
-                <p
-                  data-hero-meta
-                  className="mb-8 text-[13px] leading-relaxed tracking-wide text-sky-200/50"
-                >
-                  Headless CMS · TypeScript · self-hosted · MIT
-                </p>
+        {/* 1. Hero */}
+        <section className="relative min-h-[100svh] overflow-hidden bg-black">
+          <HeroVideo />
 
-                <h1 className="text-balance text-[clamp(2.5rem,7vw,5.5rem)] font-normal leading-[1.02] tracking-[-0.04em] text-white">
-                  <span data-hero-line className="block">
-                    Схемы в коде.
-                  </span>
-                  <span data-hero-line className="block text-sky-300/50">
-                    API, Studio и SDK
-                  </span>
-                  <span data-hero-line className="block">
-                    из одного контракта.
-                  </span>
-                </h1>
+          <Shell className="relative z-10 flex min-h-[100svh] flex-col justify-center pb-24 pt-32 md:pb-32 md:pt-36">
+            <div className="mx-auto w-full max-w-4xl text-center">
+              <p
+                data-hero-fade
+                className="mb-6 text-[13px] tracking-wide text-white/45"
+              >
+                Headless CMS · TypeScript · self-hosted · MIT
+              </p>
 
-                <p
-                  data-hero-meta
-                  className="mt-8 max-w-xl text-base leading-[1.8] text-sky-100/55 md:text-lg"
-                >
-                  defineSchema описывает контент-модели — @minecms/core
-                  сериализует контракт, server отдаёт REST/tRPC, Studio рендерит
-                  UI, SDK типизирует клиент через InferSchemaType.
-                </p>
+              <h1 className="text-balance text-[clamp(2.25rem,6.5vw,4.75rem)] font-normal leading-[1.05] tracking-[-0.04em] text-white">
+                <span data-hero-line className="block">
+                  Схемы в коде.
+                </span>
+                <span data-hero-line className="block text-white/55">
+                  Studio, API и SDK
+                </span>
+                <span data-hero-line className="block">
+                  из одного контракта.
+                </span>
+              </h1>
 
-                <div
-                  data-scroll-hint
-                  className="mt-16 flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-sky-200/30"
-                >
-                  <span className="h-px w-8 bg-current" />
-                  scroll
+              <p
+                data-hero-fade
+                className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/50 md:text-lg"
+              >
+                defineSchema описывает контент-модели — @minecms/core
+                сериализует контракт, server отдаёт REST/tRPC, Studio рендерит
+                UI, SDK типизирует клиент через InferSchemaType.
+              </p>
+
+              <div
+                data-hero-fade
+                className="mx-auto mt-10 flex max-w-xl flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:justify-center"
+              >
+                <div className="flex w-full items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-4 py-3 font-mono text-[13px] text-white/80 sm:max-w-md">
+                  <code className="min-w-0 flex-1 truncate text-left">
+                    {CREATE_CMD}
+                  </code>
+                  <CopyButton text={CREATE_CMD} />
                 </div>
               </div>
 
               <div
-                data-hero-meta
-                className="grid grid-cols-2 gap-x-8 gap-y-4 font-mono text-[13px] text-sky-100/45 md:text-sm"
+                data-hero-fade
+                className="mt-8 flex flex-wrap items-center justify-center gap-4"
               >
-                {HERO_STACK.map((item) => (
-                  <span key={item} className="tracking-tight">
-                    {item}
-                  </span>
-                ))}
+                <Button
+                  nativeButton={false}
+                  render={<Link href="#start" />}
+                  size="lg"
+                  className="h-10 bg-white px-5 text-black hover:bg-white/90"
+                >
+                  Быстрый старт
+                </Button>
+                <Button
+                  nativeButton={false}
+                  render={
+                    <Link
+                      href="https://github.com/minecms/minecms"
+                      target="_blank"
+                      rel="noreferrer"
+                    />
+                  }
+                  variant="outline"
+                  size="lg"
+                  className="h-10 border-white/25 bg-transparent px-5 text-white hover:bg-white/10 hover:text-white"
+                >
+                  Документация →
+                </Button>
               </div>
             </div>
           </Shell>
         </section>
 
-        <div className="overflow-hidden py-8 md:py-10">
-          <div className="marquee-track flex w-max gap-10 text-[clamp(1.5rem,4vw,3rem)] tracking-[-0.03em] text-[#121212]/12">
+        {/* 2. Social proof strip */}
+        <section className="border-y border-[#121212]/8 bg-[#fafafa] py-5">
+          <Shell>
+            <p
+              data-reveal
+              className="text-center text-sm leading-relaxed text-[#121212]/55 md:text-base"
+            >
+              Open source headless CMS для команд, которым нужен{" "}
+              <span className="text-[#121212]">schemas-as-code</span>,{" "}
+              <span className="text-[#121212]">self-hosted</span> деплой и{" "}
+              <span className="text-[#121212]">vendor-neutral</span> стек — без
+              проприетарных облаков и кликов в GUI для моделей данных.
+            </p>
+          </Shell>
+        </section>
+
+        {/* Marquee */}
+        <div className="overflow-hidden bg-white py-6 md:py-8">
+          <div className="marquee-track flex w-max gap-8 text-[clamp(1.25rem,3vw,2.25rem)] tracking-[-0.03em] text-[#121212]/10">
             {[...MARQUEE, ...MARQUEE].map((item, i) => (
               <span key={`${item}-${i}`} className="whitespace-nowrap">
                 {item}
-                <span className="mx-10 text-[#121212]/20">·</span>
+                <span className="mx-8 text-[#121212]/15">·</span>
               </span>
             ))}
           </div>
         </div>
 
-        <section className="py-20 md:py-32">
+        {/* 3. Two-audience split */}
+        <section className="py-20 md:py-28">
           <Shell>
-            <SectionIntro
-              label="Studio"
-              title="Динамический UI из minecms.config.ts"
-            >
-              TanStack Router, Query и Form подключаются к tRPC. Списки, формы,
-              медиа и CRUD собираются из field renderers — без отдельной вёрстки
-              под каждый тип контента.
-            </SectionIntro>
-
             <div
-              data-parallax
-              className="relative mt-14 aspect-[16/10] w-full overflow-hidden md:mt-20 md:aspect-[2/1]"
+              data-reveal
+              className="grid gap-12 md:grid-cols-2 md:gap-16 lg:gap-24"
             >
-              <div data-parallax-inner className="absolute inset-[-4%]">
-                <Image
-                  src="/images/studio-visual.png"
-                  alt="Визуализация схем данных MineCMS"
-                  fill
-                  className="object-cover object-center"
-                  sizes="(max-width: 1152px) 100vw, 1152px"
-                  priority
-                />
+              <div>
+                <SectionLabel>Разработчикам</SectionLabel>
+                <h2 className="mt-4 text-balance text-[clamp(1.5rem,3.5vw,2.25rem)] font-normal leading-[1.15] tracking-[-0.03em]">
+                  Schemas-as-code для разработчиков
+                </h2>
+                <p className="mt-5 text-base leading-[1.8] text-[#121212]/55">
+                  defineSchema, defineField, defineConfig в TypeScript. Схемы в
+                  git, миграции Drizzle из контракта, InferSchemaType на
+                  клиенте. Fastify + tRPC + REST — без расхождения типов между
+                  API и фронтом.
+                </p>
+              </div>
+              <div>
+                <SectionLabel>Контент-командам</SectionLabel>
+                <h2 className="mt-4 text-balance text-[clamp(1.5rem,3.5vw,2.25rem)] font-normal leading-[1.15] tracking-[-0.03em]">
+                  Studio для контента
+                </h2>
+                <p className="mt-5 text-base leading-[1.8] text-[#121212]/55">
+                  Админка с динамическими списками, формами и медиа. Install-визард
+                  за минуты — PostgreSQL, администратор, готово. CRUD по вашим
+                  схемам без отдельной вёрстки под каждый тип документа.
+                </p>
               </div>
             </div>
           </Shell>
         </section>
 
-        <section className="py-20 md:py-32">
+        {/* 4. Use cases grid */}
+        <section className="bg-[#fafafa] py-20 md:py-28">
           <Shell>
-            <div className="grid gap-14 md:grid-cols-3 md:gap-10 lg:gap-14">
-              {FEATURES.map((feature) => (
-                <article key={feature.num} data-reveal className="text-center md:text-left">
-                  <span className="text-[11px] tabular-nums tracking-[0.3em] text-[#121212]/30">
-                    {feature.num}
-                  </span>
-                  <h3 className="mt-4 text-xl tracking-[-0.02em] md:text-2xl">
-                    {feature.title}
+            <div data-reveal className="mx-auto max-w-3xl text-center">
+              <SectionLabel>Платформа</SectionLabel>
+              <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
+                Четыре поверхности из одного контракта
+              </h2>
+              <p className="mt-5 text-base leading-[1.8] text-[#121212]/55 md:text-lg">
+                @minecms/core сериализует схемы один раз — Studio, server, SDK и
+                CLI читают один и тот же источник правды.
+              </p>
+            </div>
+
+            <div className="mt-14 grid gap-10 sm:grid-cols-2 lg:gap-12">
+              {USE_CASES.map((item) => (
+                <article key={item.title} data-reveal>
+                  <h3 className="text-xl tracking-[-0.02em] md:text-2xl">
+                    {item.title}
                   </h3>
-                  <p className="mt-4 text-[15px] leading-[1.8] text-[#121212]/55">
-                    {feature.text}
+                  <p className="mt-3 text-[15px] leading-[1.8] text-[#121212]/55">
+                    {item.description}
                   </p>
+                  <Link
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-4 inline-flex items-center gap-1.5 text-sm text-[#121212] transition-opacity hover:opacity-55"
+                  >
+                    Подробнее
+                    <span aria-hidden>→</span>
+                  </Link>
                 </article>
               ))}
             </div>
           </Shell>
         </section>
 
-        <section className="py-20 md:py-32">
+        {/* 5. Stack showcase */}
+        <section className="py-20 md:py-28">
           <Shell>
-            <SectionIntro
-              label="Архитектура"
-              title="Один контракт — три runtime-поверхности"
-            >
-              Схемы сериализуются один раз в @minecms/core. Server, Studio и SDK
-              читают один и тот же контракт — UI, валидация и API не расходятся.
-            </SectionIntro>
-
+            <div data-reveal className="mx-auto max-w-3xl text-center">
+              <SectionLabel>Стек</SectionLabel>
+              <h2 className="mt-4 text-balance text-[clamp(1.75rem,3.5vw,2.5rem)] font-normal leading-[1.15] tracking-[-0.03em]">
+                Node 24, Fastify, tRPC, Drizzle — без legacy-обёрток
+              </h2>
+            </div>
             <div
               data-reveal
-              className="mx-auto mt-12 flex max-w-4xl flex-wrap items-center justify-center gap-x-4 gap-y-3 font-mono text-[clamp(0.8rem,1.6vw,0.95rem)] text-[#121212]/65"
+              className="mx-auto mt-12 flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-4"
             >
-              {PIPELINE.map((item, i) => (
-                <span key={item} className="flex items-center gap-3">
-                  <span>{item}</span>
-                  {i < PIPELINE.length - 1 && (
-                    <span className="text-[#121212]/25" aria-hidden>
-                      →
-                    </span>
-                  )}
+              {STACK.map((item) => (
+                <span
+                  key={item}
+                  className="font-mono text-sm text-[#121212]/60 md:text-[15px]"
+                >
+                  {item}
                 </span>
               ))}
             </div>
-
-            <div
-              data-parallax
-              className="relative mt-14 aspect-[21/9] w-full overflow-hidden md:mt-20"
-            >
-              <div data-parallax-inner className="absolute inset-[-4%]">
-                <Image
-                  src="/images/architecture-visual.png"
-                  alt="Визуализация архитектуры MineCMS"
-                  fill
-                  className="object-cover object-center"
-                  sizes="(max-width: 1152px) 100vw, 1152px"
-                />
-              </div>
-            </div>
           </Shell>
         </section>
 
-        <section className="py-20 md:py-32">
+        {/* 6. Meet the CMS — alternating feature blocks */}
+        <section className="bg-[#fafafa] py-20 md:py-28">
           <Shell>
-            <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
-              <div data-parallax className="relative order-2 aspect-[4/3] w-full overflow-hidden lg:order-1">
-                <div data-parallax-inner className="absolute inset-[-4%]">
-                  <Image
-                    src="/images/install-visual.png"
-                    alt="Визуализация развёртывания MineCMS"
-                    fill
-                    className="object-cover object-center"
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                  />
+            <div data-reveal className="mx-auto max-w-3xl text-center">
+              <SectionLabel>MineCMS</SectionLabel>
+              <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
+                Знакомьтесь с CMS
+              </h2>
+              <p className="mt-5 text-base leading-[1.8] text-[#121212]/55 md:text-lg">
+                От defineSchema до типизированного SDK — один контракт на все
+                runtime-поверхности.
+              </p>
+            </div>
+
+            <div className="mt-16 space-y-24 md:mt-24 md:space-y-32">
+              {MEET_FEATURES.map((feature) => (
+                <div
+                  key={feature.label}
+                  data-reveal
+                  className={`grid items-center gap-10 lg:grid-cols-2 lg:gap-16 ${
+                    feature.reverse ? "lg:[direction:rtl]" : ""
+                  }`}
+                >
+                  <div className={feature.reverse ? "lg:[direction:ltr]" : ""}>
+                    <SectionLabel>{feature.label}</SectionLabel>
+                    <h3 className="mt-4 text-balance text-[clamp(1.5rem,3vw,2.25rem)] font-normal leading-[1.2] tracking-[-0.03em]">
+                      {feature.title}
+                    </h3>
+                    <p className="mt-5 text-base leading-[1.8] text-[#121212]/55 md:text-lg">
+                      {feature.description}
+                    </p>
+                  </div>
+                  <div
+                    className={`relative aspect-[16/10] w-full overflow-hidden bg-[#121212]/5 ${
+                      feature.reverse ? "lg:[direction:ltr]" : ""
+                    }`}
+                  >
+                    <Image
+                      src={feature.image}
+                      alt={feature.imageAlt}
+                      fill
+                      className="object-cover object-center"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                  </div>
                 </div>
-              </div>
-
-              <div className="order-1 lg:order-2" data-reveal>
-                <SectionLabel>Развёртывание</SectionLabel>
-                <h2 className="mt-5 text-balance text-[clamp(1.75rem,3.5vw,2.5rem)] font-normal leading-[1.2] tracking-[-0.03em]">
-                  Install-визард, Docker Compose и миграции из коробки
-                </h2>
-                <p className="mt-6 text-base leading-[1.8] text-[#121212]/55 md:text-lg">
-                  CLI поднимает monorepo с cms/ и web/. Compose стартует БД и
-                  MinIO для медиа. Визард в Studio создаёт администратора и
-                  прогоняет миграции — дальше CRUD доступен через API и SDK.
-                </p>
-                <ul className="mt-8 space-y-3 text-[15px] leading-relaxed text-[#121212]/55">
-                  {DEPLOY_POINTS.map((point) => (
-                    <li key={point} className="flex gap-3">
-                      <span className="text-[#121212]/25" aria-hidden>
-                        —
-                      </span>
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              ))}
             </div>
           </Shell>
         </section>
 
-        <section className="py-20 md:py-32">
+        {/* 7. Philosophy */}
+        <section className="py-20 md:py-28">
           <Shell>
-            <SectionIntro label="Быстрый старт" title="Полный стек за одну команду">
-              Node 24+, pnpm 10+, Docker. Шаблон --next поднимает cms/ и Next.js
-              web/ — после install-визарда документ сразу в API и SDK.
-            </SectionIntro>
-
-            <pre
+            <div
               data-reveal
-              className="mx-auto mt-10 max-w-2xl overflow-x-auto font-mono text-[clamp(0.78rem,1.4vw,0.9rem)] leading-[2] text-[#121212]/70"
+              className="mx-auto max-w-3xl text-center"
             >
-              <code>{`npm create @minecms/minecms-app my-app -- --next -y
+              <SectionLabel>Философия</SectionLabel>
+              <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
+                Лучший способ управлять контентом
+              </h2>
+              <p className="mt-6 text-base leading-[1.85] text-[#121212]/55 md:text-lg">
+                MineCMS — vendor-neutral headless CMS с открытым исходным кодом
+                под MIT. Self-hosted: ваш сервер, ваши данные, PostgreSQL или
+                MySQL. Схемы живут в репозитории рядом с приложением — code
+                review вместо кликов в GUI. Без проприетарных облаков и
+                vendor lock-in.
+              </p>
+              <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-[#121212]/45">
+                <li>MIT License</li>
+                <li>Self-hosted</li>
+                <li>Vendor-neutral</li>
+                <li>Schemas-as-code</li>
+                <li>Open source</li>
+              </ul>
+            </div>
+          </Shell>
+        </section>
+
+        {/* 8. Footer CTA + links */}
+        <section
+          id="start"
+          className="border-t border-[#121212]/8 bg-black py-20 text-white md:py-28"
+        >
+          <Shell>
+            <div data-reveal className="mx-auto max-w-3xl text-center">
+              <h2 className="text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
+                Начните за одну команду
+              </h2>
+              <p className="mt-5 text-base leading-[1.8] text-white/50 md:text-lg">
+                Node 24+, pnpm 10+, Docker. Шаблон --next поднимает cms/ и
+                Next.js web/ — после install-визарда документ сразу в API и SDK.
+              </p>
+
+              <pre className="mx-auto mt-10 max-w-xl overflow-x-auto rounded-lg border border-white/10 bg-white/5 px-5 py-4 text-left font-mono text-[13px] leading-[1.9] text-white/70">
+                <code>{`${CREATE_CMD}
 cd my-app
 docker compose -f cms/docker-compose.yml up -d
 pnpm dev
@@ -439,50 +511,80 @@ pnpm dev
 # Studio  → http://localhost:3333/admin
 # API     → http://localhost:3333/api
 # Сайт    → http://localhost:3000`}</code>
-            </pre>
+              </pre>
 
-            <div
-              data-reveal
-              className="mx-auto mt-14 flex max-w-2xl flex-col items-center justify-center gap-5 sm:flex-row sm:gap-10"
-            >
-              <Link
-                href="https://github.com/minecms/minecms"
-                className="group inline-flex items-center gap-2 text-sm tracking-wide text-[#121212] transition-opacity hover:opacity-55"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span>Документация на GitHub</span>
-                <span className="transition-transform group-hover:translate-x-1">
-                  →
-                </span>
-              </Link>
-              <Link
-                href="https://www.npmjs.com/package/@minecms/create-minecms-app"
-                className="group inline-flex items-center gap-2 text-sm tracking-wide text-[#121212]/55 transition-opacity hover:opacity-80"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span>@minecms/create-minecms-app</span>
-                <span className="transition-transform group-hover:translate-x-1">
-                  →
-                </span>
-              </Link>
+              <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+                <Button
+                  nativeButton={false}
+                  render={
+                    <Link
+                      href="https://www.npmjs.com/package/@minecms/create-minecms-app"
+                      target="_blank"
+                      rel="noreferrer"
+                    />
+                  }
+                  size="lg"
+                  className="h-10 bg-white px-5 text-black hover:bg-white/90"
+                >
+                  npm create @minecms/minecms-app
+                </Button>
+                <Button
+                  nativeButton={false}
+                  render={
+                    <Link
+                      href="https://github.com/minecms/minecms"
+                      target="_blank"
+                      rel="noreferrer"
+                    />
+                  }
+                  variant="outline"
+                  size="lg"
+                  className="h-10 border-white/25 bg-transparent px-5 text-white hover:bg-white/10 hover:text-white"
+                >
+                  GitHub
+                </Button>
+              </div>
             </div>
           </Shell>
         </section>
 
-        <footer className="pb-16 pt-10 md:pb-24 md:pt-14">
+        <footer className="border-t border-white/10 bg-black pb-12 pt-10 text-white md:pb-16">
           <Shell>
             <div className="flex flex-col items-center gap-6 text-center md:flex-row md:items-end md:justify-between md:text-left">
               <div>
-                <p className="text-[clamp(2rem,5vw,3.5rem)] font-normal leading-none tracking-[-0.04em]">
+                <p className="text-[clamp(1.5rem,4vw,2.5rem)] font-normal leading-none tracking-[-0.04em]">
                   MineCMS
                 </p>
-                <p className="mt-4 text-sm text-[#121212]/40">
+                <p className="mt-3 text-sm text-white/35">
                   MIT · Node 24+ · pnpm 10+ · vendor-neutral
                 </p>
               </div>
-              <p className="text-sm text-[#121212]/35">hello@minecms.ru</p>
+              <div className="flex flex-col items-center gap-3 text-sm text-white/40 md:items-end">
+                <Link
+                  href="mailto:hello@minecms.ru"
+                  className="transition-opacity hover:text-white/70"
+                >
+                  hello@minecms.ru
+                </Link>
+                <div className="flex gap-5">
+                  <Link
+                    href="https://github.com/minecms/minecms"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="transition-opacity hover:text-white/70"
+                  >
+                    GitHub
+                  </Link>
+                  <Link
+                    href="https://www.npmjs.com/org/minecms"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="transition-opacity hover:text-white/70"
+                  >
+                    npm
+                  </Link>
+                </div>
+              </div>
             </div>
           </Shell>
         </footer>
