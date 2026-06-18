@@ -6,15 +6,16 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
+import { SiteNav } from "@/components/site-nav";
 import { typo } from "@/lib/typography";
 import { SmoothScroll } from "./smooth-scroll";
 import { HeroVideo } from "./hero-background";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const CREATE_CMD_HERO = `npx @minecms/create-minecms-app`;
-const CREATE_CMD_PNPM = `pnpm create @minecms/minecms-app my-app -- --next -y`;
-const CREATE_CMD_NPX = `npx @minecms/create-minecms-app my-app -- --next -y`;
+const CREATE_CMD_HERO = `npx @minecms/create-minecms-app@latest`;
+const CREATE_CMD_PNPM = `pnpm create @minecms/minecms-app@latest my-app -- --next -y`;
+const CREATE_CMD_NPX = `npx @minecms/create-minecms-app@latest my-app -- --next -y`;
 const CREATE_CMD_BLOCK = `${CREATE_CMD_PNPM}\n# ${typo("или")}\n${CREATE_CMD_NPX}`;
 
 const USE_CASES = [
@@ -194,24 +195,7 @@ export function LandingPage() {
             >
               MineCMS
             </Link>
-            <nav className="flex items-center gap-6 text-[13px] tracking-wide text-white/80">
-              <Link
-                href="https://github.com/minecms/minecms"
-                className="transition-opacity hover:text-white"
-                target="_blank"
-                rel="noreferrer"
-              >
-                GitHub
-              </Link>
-              <Link
-                href="https://www.npmjs.com/org/minecms"
-                className="transition-opacity hover:text-white"
-                target="_blank"
-                rel="noreferrer"
-              >
-                npm
-              </Link>
-            </nav>
+            <SiteNav variant="hero" />
           </Shell>
         </header>
 
@@ -561,6 +545,12 @@ pnpm dev
                 </p>
               </div>
               <div className="flex flex-col items-center gap-3 text-sm text-white/70 md:items-end">
+                <Link
+                  href="/versions"
+                  className="transition-opacity hover:text-white"
+                >
+                  {typo("Версии")}
+                </Link>
                 <Link
                   href="mailto:hello@minecms.ru"
                   className="transition-opacity hover:text-white/70"
