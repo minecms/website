@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "MineCMS — Headless CMS со schemas-as-code",
   description:
-    "Self-hosted headless CMS на TypeScript. Опиши схемы в коде — получи Studio, REST API и типизированный SDK.",
+    "Self-hosted headless CMS: defineSchema, Fastify + tRPC, Drizzle ORM, Studio на React 19, типизированный SDK. PostgreSQL 16, MySQL 8.",
   openGraph: {
     title: "MineCMS",
     description:

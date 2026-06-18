@@ -14,21 +14,30 @@ const FEATURES = [
   {
     num: "01",
     title: "Schemas-as-code",
-    text: "defineSchema и defineField в TypeScript. Схемы живут в git и проходят code review — не в чужой админке.",
+    text: "defineSchema, defineField, defineConfig в TypeScript. Zod-валидаторы и миграции Drizzle собираются из одного контракта. Схемы в git — code review вместо кликов в админке.",
   },
   {
     num: "02",
     title: "Studio",
-    text: "Админка с динамическими формами и списками. Добавили поле в код — Studio подхватила без ручной вёрстки.",
+    text: "Vite 8 + React 19 + TanStack Router/Query + tRPC. Списки, формы и field renderers строятся динамически — правка minecms.config.ts обновляет UI без ручной вёрстки.",
   },
   {
     num: "03",
     title: "Server & SDK",
-    text: "REST + tRPC, Drizzle ORM, MySQL 8 и PostgreSQL 16. SDK выводит типы документов через InferSchemaType.",
+    text: "Fastify v5, REST + tRPC v11, signed-cookie сессии. PostgreSQL 16 и MySQL 8 через Drizzle ORM. SDK и InferSchemaType типизируют документы на клиенте.",
   },
 ] as const;
 
-const STACK = [
+const HERO_STACK = [
+  "Node 24 LTS",
+  "Fastify v5",
+  "tRPC v11",
+  "Drizzle ORM",
+  "PostgreSQL 16",
+  "MySQL 8",
+] as const;
+
+const PIPELINE = [
   "defineSchema",
   "@minecms/core",
   "server",
@@ -36,31 +45,37 @@ const STACK = [
   "sdk",
 ] as const;
 
+const DEPLOY_POINTS = [
+  "PostgreSQL 16 или MySQL 8",
+  "Docker Compose для БД и MinIO",
+  "Install-визард в Studio",
+  "Миграции Drizzle из схем",
+  "Signed-cookie сессии",
+] as const;
+
 const MARQUEE = [
   "schemas-as-code",
   "self-hosted",
-  "opensource",
+  "Fastify",
+  "tRPC",
+  "Drizzle",
   "PostgreSQL 16",
   "MySQL 8",
-  "TypeScript",
-  "REST API",
-  "tRPC",
+  "InferSchemaType",
   "Next.js",
   "Nuxt",
 ] as const;
 
 function Shell({
   children,
-  wide,
   className = "",
 }: {
   children: ReactNode;
-  wide?: boolean;
   className?: string;
 }) {
   return (
     <div
-      className={`mx-auto w-full px-6 md:px-10 lg:px-14 ${wide ? "max-w-[1400px]" : "max-w-5xl"} ${className}`}
+      className={`mx-auto w-full max-w-6xl px-6 md:px-10 lg:px-12 ${className}`}
     >
       {children}
     </div>
@@ -72,6 +87,33 @@ function SectionLabel({ children }: { children: ReactNode }) {
     <p className="text-[11px] uppercase tracking-[0.3em] text-[#121212]/40">
       {children}
     </p>
+  );
+}
+
+function SectionIntro({
+  label,
+  title,
+  children,
+  centered = true,
+}: {
+  label: string;
+  title: string;
+  children: ReactNode;
+  centered?: boolean;
+}) {
+  return (
+    <div
+      data-reveal
+      className={centered ? "mx-auto max-w-3xl text-center" : "max-w-2xl"}
+    >
+      <SectionLabel>{label}</SectionLabel>
+      <h2 className="mt-5 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
+        {title}
+      </h2>
+      <p className="mt-6 text-base leading-[1.8] text-[#121212]/55 md:text-lg">
+        {children}
+      </p>
+    </div>
   );
 }
 
@@ -137,8 +179,8 @@ export function LandingPage() {
             end: "bottom top",
             scrub: true,
           },
-          y: -48,
-          scale: 1.03,
+          y: -40,
+          scale: 1.02,
           ease: "none",
         });
       });
@@ -150,20 +192,8 @@ export function LandingPage() {
   return (
     <SmoothScroll>
       <div ref={rootRef} className="landing relative bg-[#f4f2ee] text-[#121212]">
-        <div
-          className="pointer-events-none fixed inset-0 z-50 opacity-[0.035] mix-blend-multiply"
-          aria-hidden
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-          }}
-        />
-
         <header className="fixed inset-x-0 top-0 z-40">
-          <Shell
-            wide
-            className="flex items-center justify-between py-6 mix-blend-difference md:py-8"
-          >
+          <Shell className="flex items-center justify-between py-6 mix-blend-difference md:py-8">
             <Link
               href="/"
               className="text-[13px] font-medium tracking-[0.22em] uppercase text-white transition-opacity hover:opacity-60"
@@ -191,42 +221,58 @@ export function LandingPage() {
           </Shell>
         </header>
 
-        <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden pb-16 pt-32 md:pb-24">
+        <section className="relative min-h-[100svh] overflow-hidden pb-20 pt-32 md:pb-28 md:pt-36">
           <HeroBackground />
-          <Shell wide className="relative z-10">
-            <p
-              data-hero-meta
-              className="mb-8 max-w-xl text-[13px] leading-relaxed tracking-wide text-sky-200/50"
-            >
-              Headless CMS на TypeScript · self-hosted · vendor-neutral
-            </p>
+          <Shell className="relative z-10">
+            <div className="grid items-end gap-14 lg:grid-cols-2 lg:gap-16">
+              <div>
+                <p
+                  data-hero-meta
+                  className="mb-8 text-[13px] leading-relaxed tracking-wide text-sky-200/50"
+                >
+                  Headless CMS · TypeScript · self-hosted · MIT
+                </p>
 
-            <h1 className="max-w-[14ch] text-[clamp(2.75rem,9vw,7.5rem)] font-normal leading-[0.92] tracking-[-0.04em] text-white">
-              <span data-hero-line className="block">
-                Схемы
-              </span>
-              <span data-hero-line className="block text-sky-300/45">
-                в коде.
-              </span>
-              <span data-hero-line className="block">
-                CMS из коробки.
-              </span>
-            </h1>
+                <h1 className="text-balance text-[clamp(2.5rem,7vw,5.5rem)] font-normal leading-[1.02] tracking-[-0.04em] text-white">
+                  <span data-hero-line className="block">
+                    Схемы в коде.
+                  </span>
+                  <span data-hero-line className="block text-sky-300/50">
+                    API, Studio и SDK
+                  </span>
+                  <span data-hero-line className="block">
+                    из одного контракта.
+                  </span>
+                </h1>
 
-            <p
-              data-hero-meta
-              className="mt-10 max-w-md text-base leading-relaxed text-sky-100/55 md:text-lg"
-            >
-              Опиши контент-модели в TypeScript — получи Studio, REST API и
-              типизированный SDK из одного источника правды.
-            </p>
+                <p
+                  data-hero-meta
+                  className="mt-8 max-w-xl text-base leading-[1.8] text-sky-100/55 md:text-lg"
+                >
+                  defineSchema описывает контент-модели — @minecms/core
+                  сериализует контракт, server отдаёт REST/tRPC, Studio рендерит
+                  UI, SDK типизирует клиент через InferSchemaType.
+                </p>
 
-            <div
-              data-scroll-hint
-              className="mt-20 flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-sky-200/30"
-            >
-              <span className="h-px w-8 bg-current" />
-              scroll
+                <div
+                  data-scroll-hint
+                  className="mt-16 flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-sky-200/30"
+                >
+                  <span className="h-px w-8 bg-current" />
+                  scroll
+                </div>
+              </div>
+
+              <div
+                data-hero-meta
+                className="grid grid-cols-2 gap-x-8 gap-y-4 font-mono text-[13px] text-sky-100/45 md:text-sm"
+              >
+                {HERO_STACK.map((item) => (
+                  <span key={item} className="tracking-tight">
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
           </Shell>
         </section>
@@ -244,30 +290,26 @@ export function LandingPage() {
 
         <section className="py-20 md:py-32">
           <Shell>
-            <div data-reveal className="mb-14 max-w-2xl md:mb-20">
-              <SectionLabel>Studio</SectionLabel>
-              <h2 className="mt-5 text-[clamp(2rem,5vw,3.5rem)] font-normal leading-[1.08] tracking-[-0.03em]">
-                Панель, которая строится сама — по вашим схемам
-              </h2>
-              <p className="mt-6 max-w-lg text-base leading-[1.75] text-[#121212]/55 md:text-lg">
-                Списки, формы, медиа и CRUD без ручной вёрстки. Изменили
-                minecms.config.ts — Studio и API обновились вместе с кодом.
-              </p>
-            </div>
-          </Shell>
+            <SectionIntro
+              label="Studio"
+              title="Динамический UI из minecms.config.ts"
+            >
+              TanStack Router, Query и Form подключаются к tRPC. Списки, формы,
+              медиа и CRUD собираются из field renderers — без отдельной вёрстки
+              под каждый тип контента.
+            </SectionIntro>
 
-          <Shell wide className="mt-4">
             <div
               data-parallax
-              className="relative aspect-[16/10] w-full overflow-hidden md:aspect-[2/1]"
+              className="relative mt-14 aspect-[16/10] w-full overflow-hidden md:mt-20 md:aspect-[2/1]"
             >
-              <div data-parallax-inner className="absolute inset-[-6%]">
+              <div data-parallax-inner className="absolute inset-[-4%]">
                 <Image
                   src="/images/studio-visual.png"
-                  alt="Абстрактная визуализация схем данных MineCMS Studio"
+                  alt="Визуализация схем данных MineCMS"
                   fill
                   className="object-cover object-center"
-                  sizes="(max-width: 1400px) 100vw, 1400px"
+                  sizes="(max-width: 1152px) 100vw, 1152px"
                   priority
                 />
               </div>
@@ -277,16 +319,16 @@ export function LandingPage() {
 
         <section className="py-20 md:py-32">
           <Shell>
-            <div className="grid gap-16 md:grid-cols-3 md:gap-12 lg:gap-16">
+            <div className="grid gap-14 md:grid-cols-3 md:gap-10 lg:gap-14">
               {FEATURES.map((feature) => (
-                <article key={feature.num} data-reveal>
+                <article key={feature.num} data-reveal className="text-center md:text-left">
                   <span className="text-[11px] tabular-nums tracking-[0.3em] text-[#121212]/30">
                     {feature.num}
                   </span>
-                  <h3 className="mt-5 text-xl tracking-[-0.02em] md:text-2xl">
+                  <h3 className="mt-4 text-xl tracking-[-0.02em] md:text-2xl">
                     {feature.title}
                   </h3>
-                  <p className="mt-4 text-base leading-[1.75] text-[#121212]/55">
+                  <p className="mt-4 text-[15px] leading-[1.8] text-[#121212]/55">
                     {feature.text}
                   </p>
                 </article>
@@ -297,22 +339,22 @@ export function LandingPage() {
 
         <section className="py-20 md:py-32">
           <Shell>
-            <SectionLabel>Архитектура</SectionLabel>
-            <h2
-              data-reveal
-              className="mt-5 max-w-3xl text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.12] tracking-[-0.03em]"
+            <SectionIntro
+              label="Архитектура"
+              title="Один контракт — три runtime-поверхности"
             >
-              Один контракт — три поверхности: API, админка, клиент
-            </h2>
+              Схемы сериализуются один раз в @minecms/core. Server, Studio и SDK
+              читают один и тот же контракт — UI, валидация и API не расходятся.
+            </SectionIntro>
 
             <div
               data-reveal
-              className="mt-12 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[clamp(0.8rem,1.8vw,1rem)] text-[#121212]/65"
+              className="mx-auto mt-12 flex max-w-4xl flex-wrap items-center justify-center gap-x-4 gap-y-3 font-mono text-[clamp(0.8rem,1.6vw,0.95rem)] text-[#121212]/65"
             >
-              {STACK.map((item, i) => (
+              {PIPELINE.map((item, i) => (
                 <span key={item} className="flex items-center gap-3">
-                  <span className="tracking-tight">{item}</span>
-                  {i < STACK.length - 1 && (
+                  <span>{item}</span>
+                  {i < PIPELINE.length - 1 && (
                     <span className="text-[#121212]/25" aria-hidden>
                       →
                     </span>
@@ -321,28 +363,17 @@ export function LandingPage() {
               ))}
             </div>
 
-            <p
-              data-reveal
-              className="mt-8 max-w-2xl text-base leading-[1.75] text-[#121212]/55 md:mt-10 md:text-lg"
-            >
-              Fastify + tRPC на сервере, Vite + React в Studio, типизированный
-              REST-клиент в SDK. Схемы сериализуются один раз — UI и валидация
-              всегда синхронны.
-            </p>
-          </Shell>
-
-          <Shell wide className="mt-14 md:mt-20">
             <div
               data-parallax
-              className="relative aspect-[21/9] w-full overflow-hidden"
+              className="relative mt-14 aspect-[21/9] w-full overflow-hidden md:mt-20"
             >
-              <div data-parallax-inner className="absolute inset-[-5%]">
+              <div data-parallax-inner className="absolute inset-[-4%]">
                 <Image
                   src="/images/architecture-visual.png"
-                  alt="Абстрактная визуализация архитектуры MineCMS"
+                  alt="Визуализация архитектуры MineCMS"
                   fill
                   className="object-cover object-center"
-                  sizes="(max-width: 1400px) 100vw, 1400px"
+                  sizes="(max-width: 1152px) 100vw, 1152px"
                 />
               </div>
             </div>
@@ -350,32 +381,40 @@ export function LandingPage() {
         </section>
 
         <section className="py-20 md:py-32">
-          <Shell wide>
-            <div className="grid items-center gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] md:gap-16 lg:gap-24">
-              <div data-reveal>
-                <SectionLabel>Установка</SectionLabel>
-                <h2 className="mt-5 text-[clamp(1.75rem,4vw,2.75rem)] font-normal leading-[1.12] tracking-[-0.03em]">
-                  Готово за минуты — визард в Studio
-                </h2>
-                <p className="mt-6 max-w-md text-base leading-[1.75] text-[#121212]/55 md:text-lg">
-                  PostgreSQL, администратор, первый документ. Без облачных
-                  подписок и чужих панелей.
-                </p>
-              </div>
-
-              <div
-                data-parallax
-                className="relative aspect-[4/3] w-full overflow-hidden"
-              >
-                <div data-parallax-inner className="absolute inset-[-5%]">
+          <Shell>
+            <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+              <div data-parallax className="relative order-2 aspect-[4/3] w-full overflow-hidden lg:order-1">
+                <div data-parallax-inner className="absolute inset-[-4%]">
                   <Image
                     src="/images/install-visual.png"
-                    alt="Абстрактная визуализация быстрого запуска MineCMS"
+                    alt="Визуализация развёртывания MineCMS"
                     fill
                     className="object-cover object-center"
-                    sizes="(max-width: 768px) 100vw, 55vw"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                 </div>
+              </div>
+
+              <div className="order-1 lg:order-2" data-reveal>
+                <SectionLabel>Развёртывание</SectionLabel>
+                <h2 className="mt-5 text-balance text-[clamp(1.75rem,3.5vw,2.5rem)] font-normal leading-[1.2] tracking-[-0.03em]">
+                  Install-визард, Docker Compose и миграции из коробки
+                </h2>
+                <p className="mt-6 text-base leading-[1.8] text-[#121212]/55 md:text-lg">
+                  CLI поднимает monorepo с cms/ и web/. Compose стартует БД и
+                  MinIO для медиа. Визард в Studio создаёт администратора и
+                  прогоняет миграции — дальше CRUD доступен через API и SDK.
+                </p>
+                <ul className="mt-8 space-y-3 text-[15px] leading-relaxed text-[#121212]/55">
+                  {DEPLOY_POINTS.map((point) => (
+                    <li key={point} className="flex gap-3">
+                      <span className="text-[#121212]/25" aria-hidden>
+                        —
+                      </span>
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </Shell>
@@ -383,24 +422,28 @@ export function LandingPage() {
 
         <section className="py-20 md:py-32">
           <Shell>
-            <SectionLabel>Быстрый старт</SectionLabel>
+            <SectionIntro label="Быстрый старт" title="Полный стек за одну команду">
+              Node 24+, pnpm 10+, Docker. Шаблон --next поднимает cms/ и Next.js
+              web/ — после install-визарда документ сразу в API и SDK.
+            </SectionIntro>
 
             <pre
               data-reveal
-              className="mt-8 max-w-2xl overflow-x-auto font-mono text-[clamp(0.78rem,1.5vw,0.92rem)] leading-[2] text-[#121212]/70"
+              className="mx-auto mt-10 max-w-2xl overflow-x-auto font-mono text-[clamp(0.78rem,1.4vw,0.9rem)] leading-[2] text-[#121212]/70"
             >
               <code>{`npm create @minecms/minecms-app my-app -- --next -y
 cd my-app
 docker compose -f cms/docker-compose.yml up -d
 pnpm dev
 
-# Studio → http://localhost:3333/admin
-# Сайт   → http://localhost:3000`}</code>
+# Studio  → http://localhost:3333/admin
+# API     → http://localhost:3333/api
+# Сайт    → http://localhost:3000`}</code>
             </pre>
 
             <div
               data-reveal
-              className="mt-14 flex flex-col gap-5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-10"
+              className="mx-auto mt-14 flex max-w-2xl flex-col items-center justify-center gap-5 sm:flex-row sm:gap-10"
             >
               <Link
                 href="https://github.com/minecms/minecms"
@@ -429,14 +472,14 @@ pnpm dev
         </section>
 
         <footer className="pb-16 pt-10 md:pb-24 md:pt-14">
-          <Shell wide>
-            <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <Shell>
+            <div className="flex flex-col items-center gap-6 text-center md:flex-row md:items-end md:justify-between md:text-left">
               <div>
-                <p className="text-[clamp(2rem,6vw,4rem)] font-normal leading-none tracking-[-0.04em]">
+                <p className="text-[clamp(2rem,5vw,3.5rem)] font-normal leading-none tracking-[-0.04em]">
                   MineCMS
                 </p>
-                <p className="mt-5 text-sm text-[#121212]/40">
-                  MIT · Node 24+ · pnpm 10+
+                <p className="mt-4 text-sm text-[#121212]/40">
+                  MIT · Node 24+ · pnpm 10+ · vendor-neutral
                 </p>
               </div>
               <p className="text-sm text-[#121212]/35">hello@minecms.ru</p>
