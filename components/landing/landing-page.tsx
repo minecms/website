@@ -11,7 +11,9 @@ import { HeroVideo } from "./hero-background";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const CREATE_CMD = `npm create @minecms/minecms-app my-app -- --next -y`;
+const CREATE_CMD_PNPM = `pnpm create @minecms/minecms-app my-app -- --next -y`;
+const CREATE_CMD_NPX = `npx @minecms/create-minecms-app my-app -- --next -y`;
+const CREATE_CMD_BLOCK = `${CREATE_CMD_PNPM}\n# или\n${CREATE_CMD_NPX}`;
 
 const USE_CASES = [
   {
@@ -23,7 +25,7 @@ const USE_CASES = [
   {
     title: "Сервер",
     description:
-      "Backend на Fastify v5: REST и tRPC v11, сессии через подписанные cookie. PostgreSQL 16 или MySQL 8 через Drizzle ORM. CRUD, медиа в MinIO и права доступа — всё из тех же схем, что в конфиге.",
+      "Сервер на Fastify v5: REST и tRPC v11, сессии через подписанные cookie. PostgreSQL 16 или MySQL 8 через Drizzle ORM. CRUD, медиа в MinIO и права доступа — всё из тех же схем, что в конфиге.",
     href: "https://github.com/minecms/minecms/tree/main/apps/server",
   },
   {
@@ -45,7 +47,7 @@ const MEET_FEATURES = [
     label: "defineSchema",
     title: "Модели контента — в коде, рядом с приложением",
     description:
-      "Что: defineSchema, defineField и defineConfig описывают поля, связи и права в TypeScript. Как: схемы лежат в git, проходят code review; @minecms/core собирает из них Zod-валидаторы и миграции Drizzle. Зачем: структура контента версионируется вместе с проектом — не в отдельной админке и не в чужом облаке.",
+      "Что: defineSchema, defineField и defineConfig описывают поля, связи и права в TypeScript. Как: схемы лежат в git, проходят ревью кода; @minecms/core собирает из них Zod-валидаторы и миграции Drizzle. Зачем: структура контента версионируется вместе с проектом — не в отдельной админке и не в чужом облаке.",
     image: "/images/studio-visual.png",
     imageAlt: "Схемы MineCMS в коде",
     reverse: false,
@@ -243,11 +245,11 @@ export function LandingPage() {
                 data-hero-fade
                 className="mx-auto mt-10 flex max-w-xl flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:justify-center"
               >
-                <div className="flex w-full items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-4 py-3 font-mono text-[13px] text-white/80 sm:max-w-md">
-                  <code className="min-w-0 flex-1 truncate text-left">
-                    {CREATE_CMD}
+                <div className="flex w-full items-start gap-2 rounded-lg border border-white/15 bg-white/5 px-4 py-3 font-mono text-[13px] leading-relaxed text-white/80 sm:max-w-lg">
+                  <code className="min-w-0 flex-1 whitespace-pre-wrap text-left">
+                    {CREATE_CMD_BLOCK}
                   </code>
-                  <CopyButton text={CREATE_CMD} />
+                  <CopyButton text={CREATE_CMD_PNPM} />
                 </div>
               </div>
 
@@ -478,7 +480,7 @@ export function LandingPage() {
               <p className="mt-6 text-base leading-[1.85] text-[#121212]/75 md:text-lg">
                 MineCMS — открытая CMS без готовой вёрстки, лицензия MIT. Данные
                 на вашем сервере: PostgreSQL 16 или MySQL 8, медиа в MinIO.
-                Схемы лежат в репозитории рядом с приложением — code review
+                Схемы лежат в репозитории рядом с приложением — ревью кода
                 вместо правок в чужой админке. Без облачных подписок и
                 привязки к чужой платформе.
               </p>
@@ -504,14 +506,14 @@ export function LandingPage() {
                 Запуск за одну команду
               </h2>
               <p className="mt-5 text-base leading-[1.8] text-white/80 md:text-lg">
-                Node 24+, pnpm 10+, Docker. Шаблон --next создаёт monorepo с
+                Node 24+, pnpm 10+, Docker. Шаблон --next создаёт репозиторий с
                 cms/ и web/: Docker Compose поднимает PostgreSQL и MinIO, мастер
                 установки в Studio — и документ сразу доступен через REST, tRPC
                 и SDK.
               </p>
 
               <pre className="mx-auto mt-10 max-w-xl overflow-x-auto rounded-lg border border-white/10 bg-white/5 px-5 py-4 text-left font-mono text-[13px] leading-[1.9] text-white/85">
-                <code>{`${CREATE_CMD}
+                <code>{`${CREATE_CMD_BLOCK}
 cd my-app
 docker compose -f cms/docker-compose.yml up -d
 pnpm dev
@@ -534,7 +536,7 @@ pnpm dev
                   size="lg"
                   className="h-10 bg-white px-5 text-black hover:bg-black hover:text-white"
                 >
-                  npm create @minecms/minecms-app
+                  pnpm create @minecms/minecms-app
                 </Button>
                 <Button
                   nativeButton={false}
