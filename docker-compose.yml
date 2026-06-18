@@ -1,0 +1,14 @@
+services:
+  minecms-app:
+    build: .
+    restart: unless-stopped
+    expose:
+      - "3000"
+    networks:
+      web:
+        aliases:
+          - minecms-app
+
+networks:
+  web:
+    external: true
