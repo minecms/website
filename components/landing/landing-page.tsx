@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,14 @@ import { typo } from "@/lib/typography";
 import { ImageZoom } from "@/components/ui/image-zoom";
 import { SmoothScroll } from "./smooth-scroll";
 import { HeroVideo } from "./hero-background";
+import {
+  Container,
+  FullBleedMarquee,
+  Section,
+  SectionIntro,
+  SectionLabel,
+  SectionTitle,
+} from "./section-layout";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -177,30 +185,6 @@ const MARQUEE = [
   "InferSchemaType",
 ] as const;
 
-function Shell({
-  children,
-  className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <div
-      className={`mx-auto w-full max-w-6xl px-6 md:px-10 lg:px-12 ${className}`}
-    >
-      {children}
-    </div>
-  );
-}
-
-function SectionLabel({ children }: { children: ReactNode }) {
-  return (
-    <p className="text-[11px] uppercase tracking-[0.28em] text-[#121212]/60">
-      {children}
-    </p>
-  );
-}
-
 function CopyButton({ text }: { text: string }) {
   const copy = () => navigator.clipboard.writeText(text);
   return (
@@ -261,7 +245,7 @@ export function LandingPage() {
       <div ref={rootRef} className="landing bg-white text-[#121212]">
         {/* Header */}
         <header className="fixed inset-x-0 top-0 z-40">
-          <Shell className="flex items-center justify-between py-6 md:py-7">
+          <Container className="flex items-center justify-between py-6 md:py-8">
             <Link
               href="/"
               className="text-[13px] font-medium tracking-[0.22em] uppercase text-white transition-opacity hover:opacity-60"
@@ -269,36 +253,40 @@ export function LandingPage() {
               MineCMS
             </Link>
             <SiteNav variant="hero" />
-          </Shell>
+          </Container>
         </header>
 
         {/* 1. Hero */}
-        <section className="relative min-h-[100svh] overflow-hidden bg-black">
+        <Section className="relative min-h-svh overflow-hidden bg-black">
           <HeroVideo />
 
-          <Shell className="relative z-10 flex min-h-[100svh] flex-col justify-center pb-24 pt-32 md:pb-32 md:pt-36">
-            <div className="mx-auto w-full max-w-4xl text-center">
-              <h1 className="text-balance text-[clamp(3rem,8vw,6rem)] font-normal leading-[1.05] tracking-[-0.04em] text-white">
+          <Container className="relative z-10 flex min-h-svh flex-col justify-end pb-16 pt-32 md:pb-24 md:pt-40 lg:justify-center lg:pb-32">
+            <div className="max-w-3xl">
+              <SectionLabel invert>MineCMS</SectionLabel>
+              <h1 className="mt-6 text-balance text-[clamp(3.25rem,9vw,7.5rem)] font-normal leading-[0.98] tracking-[-0.045em] text-white">
                 <span data-hero-line className="block">
-                  MineCMS
+                  {typo("Headless CMS")}
+                </span>
+                <span
+                  data-hero-line
+                  className="mt-1 block text-white/55 md:mt-2"
+                >
+                  {typo("на вашем сервере")}
                 </span>
               </h1>
 
               <p
                 data-hero-fade
-                className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/80 md:text-lg"
+                className="mt-8 max-w-xl text-base leading-[1.8] text-white/75 md:text-lg md:leading-[1.85]"
               >
                 {typo(
-                  "Система управления контентом на вашем сервере. Опишите структуру в коде — получите админку и API без чужих облаков.",
+                  "Опишите структуру контента в коде — получите Studio, REST API и типизированный SDK. Без чужих облаков и подписок.",
                 )}
               </p>
 
-              <div
-                data-hero-fade
-                className="mx-auto mt-10 flex max-w-xl flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:justify-center"
-              >
-                <div className="flex w-full items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-4 py-3 font-mono text-[13px] text-white/80 sm:max-w-lg">
-                  <code className="min-w-0 flex-1 text-left">
+              <div data-hero-fade className="mt-10 max-w-xl">
+                <div className="flex w-full min-w-0 items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-4 py-3 font-mono text-[13px] text-white/80 backdrop-blur-sm">
+                  <code className="min-w-0 flex-1 truncate">
                     {CREATE_CMD_HERO}
                   </code>
                   <CopyButton text={CREATE_CMD_HERO} />
@@ -307,13 +295,13 @@ export function LandingPage() {
 
               <div
                 data-hero-fade
-                className="mt-8 flex flex-wrap items-center justify-center gap-4"
+                className="mt-8 flex flex-wrap items-center gap-4"
               >
                 <Button
                   nativeButton={false}
                   render={<Link href="#start" />}
                   size="lg"
-                  className="h-10 bg-white px-5 text-black hover:bg-black hover:text-white"
+                  className="h-11 bg-white px-6 text-black hover:bg-black hover:text-white"
                 >
                   {typo("Быстрый старт")}
                 </Button>
@@ -328,31 +316,31 @@ export function LandingPage() {
                   }
                   variant="outline"
                   size="lg"
-                  className="h-10 border-white/25 bg-transparent px-5 text-white hover:bg-black hover:text-white"
+                  className="h-11 border-white/25 bg-transparent px-6 text-white hover:bg-black hover:text-white"
                 >
                   {typo("Документация →")}
                 </Button>
               </div>
             </div>
-          </Shell>
-        </section>
+          </Container>
+        </Section>
 
         {/* 2. Social proof strip */}
-        <section className="border-y border-[#121212]/8 bg-[#fafafa] py-5">
-          <Shell>
+        <Section className="border-y border-[#121212]/8 bg-[#fafafa]">
+          <Container className="py-6 md:py-8">
             <p
               data-reveal
-              className="text-center text-sm leading-relaxed text-[#121212]/75 md:text-base"
+              className="max-w-4xl text-sm leading-relaxed text-[#121212]/75 md:text-base md:leading-[1.85]"
             >
               {typo(
                 "Открытая CMS на вашем сервере: PostgreSQL или MySQL, данные и медиа у вас. Схемы контента — в коде рядом с проектом, без чужих облаков и ежемесячных подписок.",
               )}
             </p>
-          </Shell>
-        </section>
+          </Container>
+        </Section>
 
         {/* Marquee */}
-        <div className="overflow-hidden bg-white py-6 md:py-8">
+        <FullBleedMarquee>
           <div className="marquee-track flex w-max gap-8 font-mono text-[clamp(1.25rem,3vw,2.25rem)] tracking-[-0.03em] text-[#121212]/30">
             {[...MARQUEE, ...MARQUEE].map((item, i) => (
               <span key={`${item}-${i}`} className="whitespace-nowrap">
@@ -361,70 +349,70 @@ export function LandingPage() {
               </span>
             ))}
           </div>
-        </div>
+        </FullBleedMarquee>
 
         {/* 3. Two-audience split */}
-        <section className="py-20 md:py-28">
-          <Shell>
+        <Section className="py-24 md:py-32 lg:py-40">
+          <Container>
             <div
               data-reveal
-              className="grid gap-12 md:grid-cols-2 md:gap-16 lg:gap-24"
+              className="grid gap-16 border-t border-[#121212]/8 pt-16 md:grid-cols-2 md:gap-20 md:pt-20 lg:gap-28"
             >
-              <div>
+              <div className="max-w-md">
                 <SectionLabel>{typo("Разработчикам")}</SectionLabel>
-                <h2 className="mt-4 text-balance text-[clamp(1.5rem,3.5vw,2.25rem)] font-normal leading-[1.15] tracking-[-0.03em]">
+                <SectionTitle className="mt-5">
                   {typo("TypeScript, git и типы без расхождений")}
-                </h2>
-                <p className="mt-5 text-base leading-[1.8] text-[#121212]/75">
+                </SectionTitle>
+                <p className="mt-6 text-base leading-[1.85] text-[#121212]/75 md:text-[17px]">
                   {typo(
                     "defineSchema, defineField и defineConfig — схемы в репозитории, миграции Drizzle из того же конфига, InferSchemaType на клиенте. Fastify + tRPC + REST: типы на фронте и в API совпадают, потому что оба читают один minecms.config.ts.",
                   )}
                 </p>
               </div>
-              <div>
+              <div className="max-w-md md:justify-self-end">
                 <SectionLabel>{typo("Контент-командам")}</SectionLabel>
-                <h2 className="mt-4 text-balance text-[clamp(1.5rem,3.5vw,2.25rem)] font-normal leading-[1.15] tracking-[-0.03em]">
+                <SectionTitle className="mt-5">
                   {typo("Studio — готовая админка из ваших схем")}
-                </h2>
-                <p className="mt-5 text-base leading-[1.8] text-[#121212]/75">
+                </SectionTitle>
+                <p className="mt-6 text-base leading-[1.85] text-[#121212]/75 md:text-[17px]">
                   {typo(
                     "Динамические списки, формы и медиа с превью в полный экран. Интерфейс на React 19, Tailwind v4 и shadcn/ui — понятный редакторам, без ручной вёрстки под каждый тип документа. Мастер установки за минуты: PostgreSQL 16, администратор, миграции.",
                   )}
                 </p>
               </div>
             </div>
-          </Shell>
-        </section>
+          </Container>
+        </Section>
 
         {/* 4. Use cases grid */}
-        <section className="bg-[#fafafa] py-20 md:py-28">
-          <Shell>
-            <div data-reveal className="mx-auto max-w-3xl text-center">
+        <Section className="border-t border-[#121212]/8 bg-[#fafafa] py-24 md:py-32 lg:py-40">
+          <Container>
+            <SectionIntro data-reveal align="left" className="max-w-2xl">
               <SectionLabel>{typo("Платформа")}</SectionLabel>
-              <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
+              <SectionTitle className="mt-5">
                 {typo("Ядро, Сервер, Studio и SDK — один конфиг")}
-              </h2>
-              <p className="mt-5 text-base leading-[1.8] text-[#121212]/75 md:text-lg">
+              </SectionTitle>
+              <p className="mt-6 text-base leading-[1.85] text-[#121212]/75 md:text-lg">
                 {typo(
                   "minecms.config.ts описывает модели один раз. @minecms/core собирает валидаторы и миграции, сервер отдаёт API, Studio рисует админку, SDK типизирует клиент — четыре части читают одни и те же схемы.",
                 )}
               </p>
-            </div>
+            </SectionIntro>
 
-            <div className="mt-14 grid gap-10 sm:grid-cols-2 lg:gap-12">
+            <div className="mt-16 grid gap-12 border-t border-[#121212]/8 pt-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10 lg:pt-20">
               {USE_CASES.map((item) => (
-                <article key={item.title} data-reveal>
+                <article key={item.title} data-reveal className="max-w-sm">
                   <h3 className="text-xl tracking-[-0.02em] md:text-2xl">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-[15px] leading-[1.8] text-[#121212]/75">
+                  <p className="mt-4 text-[15px] leading-[1.85] text-[#121212]/75">
                     {item.description}
                   </p>
                   <Link
                     href={item.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-4 inline-flex items-center gap-1.5 text-sm text-[#121212] transition-opacity hover:opacity-55"
+                    className="mt-5 inline-flex items-center gap-1.5 text-sm text-[#121212] transition-opacity hover:opacity-55"
                   >
                     {typo("Подробнее")}
                     <span aria-hidden>→</span>
@@ -432,26 +420,26 @@ export function LandingPage() {
                 </article>
               ))}
             </div>
-          </Shell>
-        </section>
+          </Container>
+        </Section>
 
         {/* 5. Stack showcase */}
-        <section className="py-20 md:py-28">
-          <Shell>
-            <div data-reveal className="mx-auto max-w-3xl text-center">
+        <Section className="py-24 md:py-32 lg:py-40">
+          <Container>
+            <SectionIntro data-reveal align="left" className="max-w-2xl">
               <SectionLabel>{typo("Стек")}</SectionLabel>
-              <h2 className="mt-4 text-balance text-[clamp(1.75rem,3.5vw,2.5rem)] font-normal leading-[1.15] tracking-[-0.03em]">
+              <SectionTitle className="mt-5">
                 {typo("Современный стек без лишних прослоек")}
-              </h2>
-              <p className="mt-5 text-base leading-[1.8] text-[#121212]/75 md:text-lg">
+              </SectionTitle>
+              <p className="mt-6 text-base leading-[1.85] text-[#121212]/75 md:text-lg">
                 {typo(
                   "Node 24 LTS, Fastify v5, tRPC v11, Drizzle ORM — PostgreSQL 16 или MySQL 8, React 19 на фронте, шаблоны под Next.js и Nuxt.",
                 )}
               </p>
-            </div>
+            </SectionIntro>
             <div
               data-reveal
-              className="mx-auto mt-12 flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-4"
+              className="mt-14 grid grid-cols-2 gap-x-8 gap-y-5 border-t border-[#121212]/8 pt-14 sm:grid-cols-4 lg:grid-cols-8"
             >
               {STACK.map((item) => (
                 <span
@@ -462,43 +450,45 @@ export function LandingPage() {
                 </span>
               ))}
             </div>
-          </Shell>
-        </section>
+          </Container>
+        </Section>
 
         {/* 5b. UI / Design system */}
-        <section className="overflow-hidden border-y border-[#121212]/8 bg-[#fafafa] py-20 md:py-28">
-          <Shell>
-            <div data-reveal className="mx-auto max-w-3xl text-center">
+        <Section className="border-y border-[#121212]/8 bg-[#fafafa] py-24 md:py-32 lg:py-40">
+          <Container>
+            <SectionIntro data-reveal align="left" className="max-w-2xl">
               <SectionLabel>Studio</SectionLabel>
-              <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
+              <SectionTitle className="mt-5">
                 {typo("Интерфейс MineCMS Studio")}
-              </h2>
-              <p className="mt-5 text-base leading-[1.8] text-[#121212]/75 md:text-lg">
+              </SectionTitle>
+              <p className="mt-6 text-base leading-[1.85] text-[#121212]/75 md:text-lg">
                 {typo(
                   "Админка MineCMS — не legacy-панель на jQuery. React 19, Tailwind CSS v4, shadcn/ui и Radix UI: продуманный интерфейс Design Engineer, понятный редакторам и удобный разработчикам.",
                 )}
               </p>
-            </div>
+            </SectionIntro>
+          </Container>
 
-            <div className="mt-10 overflow-hidden md:mt-12">
-              <div className="marquee-track flex w-max gap-8 font-mono text-[clamp(1rem,2.5vw,1.75rem)] tracking-[-0.03em] text-[#121212]/25">
-                {[...UI_MARQUEE, ...UI_MARQUEE].map((item, i) => (
-                  <span key={`${item}-${i}`} className="whitespace-nowrap">
-                    {item}
-                    <span className="mx-8 text-[#121212]/30">·</span>
-                  </span>
-                ))}
-              </div>
+          <FullBleedMarquee>
+            <div className="marquee-track flex w-max gap-8 font-mono text-[clamp(1rem,2.5vw,1.75rem)] tracking-[-0.03em] text-[#121212]/25">
+              {[...UI_MARQUEE, ...UI_MARQUEE].map((item, i) => (
+                <span key={`${item}-${i}`} className="whitespace-nowrap">
+                  {item}
+                  <span className="mx-8 text-[#121212]/30">·</span>
+                </span>
+              ))}
             </div>
+          </FullBleedMarquee>
 
-            <div className="mt-14 grid gap-10 sm:grid-cols-2 lg:gap-12">
+          <Container>
+            <div className="mt-16 grid gap-12 border-t border-[#121212]/8 pt-16 sm:grid-cols-2 lg:gap-x-16 lg:gap-y-14 lg:pt-20">
               {UI_TECH.map((item) => (
-                <article key={item.title} data-reveal>
+                <article key={item.title} data-reveal className="max-w-lg">
                   <SectionLabel>{item.label}</SectionLabel>
                   <h3 className="mt-3 text-xl tracking-[-0.02em] md:text-2xl">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-[15px] leading-[1.8] text-[#121212]/75">
+                  <p className="mt-4 text-[15px] leading-[1.85] text-[#121212]/75">
                     {item.description}
                   </p>
                   <p className="mt-4 font-mono text-xs leading-relaxed text-[#121212]/55">
@@ -507,104 +497,107 @@ export function LandingPage() {
                 </article>
               ))}
             </div>
-          </Shell>
-        </section>
+          </Container>
+        </Section>
 
-        {/* 6. Meet the CMS — alternating feature blocks */}
-        <section className="py-20 md:py-28">
-          <Shell>
-            <div data-reveal className="mx-auto max-w-3xl text-center">
+        {/* 6. Meet the CMS — full-bleed feature showcases */}
+        <Section className="py-24 md:py-32 lg:py-40">
+          <Container className="mb-16 md:mb-24">
+            <SectionIntro data-reveal align="left" className="max-w-2xl">
               <SectionLabel>MineCMS</SectionLabel>
-              <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
+              <SectionTitle className="mt-5">
                 {typo("Как устроена MineCMS")}
-              </h2>
-              <p className="mt-5 text-base leading-[1.8] text-[#121212]/75 md:text-lg">
+              </SectionTitle>
+              <p className="mt-6 text-base leading-[1.85] text-[#121212]/75 md:text-lg">
                 {typo(
                   "От defineSchema в коде до типизированного SDK на клиенте — один конфиг связывает админку, API и фронт.",
                 )}
               </p>
-            </div>
+            </SectionIntro>
+          </Container>
 
-            <div className="mt-16 space-y-24 md:mt-24 md:space-y-32">
-              {MEET_FEATURES.map((feature) => (
+          <div className="space-y-0">
+            {MEET_FEATURES.map((feature, index) => (
+              <div
+                key={feature.label}
+                data-reveal
+                className={`grid min-h-[min(88svh,920px)] lg:grid-cols-2 ${
+                  index > 0 ? "border-t border-[#121212]/8" : ""
+                }`}
+              >
                 <div
-                  key={feature.label}
-                  data-reveal
-                  className={`grid items-center gap-10 lg:grid-cols-2 lg:gap-16 ${
-                    feature.reverse ? "lg:[direction:rtl]" : ""
+                  className={`flex items-center px-6 py-16 md:px-10 md:py-24 lg:px-16 lg:py-28 xl:px-24 ${
+                    feature.reverse ? "lg:order-2" : ""
                   }`}
                 >
-                  <div className={feature.reverse ? "lg:[direction:ltr]" : ""}>
+                  <div className="max-w-md">
                     <SectionLabel>{feature.label}</SectionLabel>
-                    <h3 className="mt-4 text-balance text-[clamp(1.5rem,3vw,2.25rem)] font-normal leading-[1.2] tracking-[-0.03em]">
+                    <h3 className="mt-5 text-balance text-[clamp(1.75rem,3.5vw,2.75rem)] font-normal leading-[1.12] tracking-[-0.04em]">
                       {feature.title}
                     </h3>
-                    <p className="mt-5 text-base leading-[1.8] text-[#121212]/75 md:text-lg">
+                    <p className="mt-6 text-base leading-[1.85] text-[#121212]/75 md:text-[17px]">
                       {feature.description}
                     </p>
                   </div>
-                  <div
-                    className={`relative aspect-[16/10] w-full overflow-hidden bg-[#121212]/5 ${
-                      feature.reverse ? "lg:[direction:ltr]" : ""
-                    }`}
-                  >
-                    <ImageZoom
-                      src={feature.image}
-                      alt={feature.imageAlt}
-                      fill
-                      className="object-cover object-center"
-                    />
-                  </div>
                 </div>
-              ))}
-            </div>
-          </Shell>
-        </section>
+                <div
+                  className={`relative min-h-[280px] bg-[#121212]/[0.03] sm:min-h-[360px] lg:min-h-0 ${
+                    feature.reverse ? "lg:order-1" : ""
+                  }`}
+                >
+                  <ImageZoom
+                    src={feature.image}
+                    alt={feature.imageAlt}
+                    fill
+                    className="object-cover object-top"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </Section>
 
         {/* 7. Philosophy */}
-        <section className="py-20 md:py-28">
-          <Shell>
-            <div
-              data-reveal
-              className="mx-auto max-w-3xl text-center"
-            >
-              <SectionLabel>{typo("Философия")}</SectionLabel>
-              <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
+        <Section className="bg-black py-24 text-white md:py-32 lg:py-40">
+          <Container>
+            <SectionIntro data-reveal align="left" className="max-w-2xl">
+              <SectionLabel invert>{typo("Философия")}</SectionLabel>
+              <SectionTitle className="mt-5 text-white">
                 {typo("Контент под вашим контролем")}
-              </h2>
-              <p className="mt-6 text-base leading-[1.85] text-[#121212]/75 md:text-lg">
+              </SectionTitle>
+              <p className="mt-6 text-base leading-[1.85] text-white/75 md:text-lg">
                 {typo(
                   "MineCMS — открытая CMS без готовой вёрстки, лицензия MIT. Данные на вашем сервере: PostgreSQL 16 или MySQL 8, медиа в MinIO. Схемы лежат в репозитории рядом с приложением — ревью кода вместо правок в чужой админке. Без облачных подписок и привязки к чужой платформе.",
                 )}
               </p>
-              <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-[#121212]/75">
+              <ul className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-white/65">
                 <li>{typo("Лицензия MIT")}</li>
                 <li>{typo("На вашем сервере")}</li>
                 <li>{typo("Открытый исходный код")}</li>
                 <li>{typo("Схемы в коде")}</li>
                 <li>{typo("PostgreSQL и MySQL")}</li>
               </ul>
-            </div>
-          </Shell>
-        </section>
+            </SectionIntro>
+          </Container>
+        </Section>
 
         {/* 8. Footer CTA + links */}
-        <section
+        <Section
           id="start"
-          className="border-t border-[#121212]/8 bg-black py-20 text-white md:py-28"
+          className="border-t border-white/10 bg-black py-24 text-white md:py-32 lg:py-40"
         >
-          <Shell>
-            <div data-reveal className="mx-auto max-w-3xl text-center">
-              <h2 className="text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
+          <Container>
+            <SectionIntro data-reveal align="left" className="max-w-2xl">
+              <SectionTitle className="text-white">
                 {typo("Запуск за одну команду")}
-              </h2>
-              <p className="mt-5 text-base leading-[1.8] text-white/80 md:text-lg">
+              </SectionTitle>
+              <p className="mt-6 text-base leading-[1.85] text-white/75 md:text-lg">
                 {typo(
                   "Node 24+, pnpm 10+, Docker. Шаблон --next создаёт репозиторий с cms/ и web/: Docker Compose поднимает PostgreSQL и MinIO, мастер установки в Studio — и документ сразу доступен через REST, tRPC и SDK.",
                 )}
               </p>
 
-              <pre className="mx-auto mt-10 max-w-xl overflow-x-auto rounded-lg border border-white/10 bg-white/5 px-5 py-4 text-left font-mono text-[13px] leading-[1.9] text-white/85">
+              <pre className="mt-10 max-w-xl overflow-x-auto rounded-lg border border-white/10 bg-white/5 px-5 py-4 font-mono text-[13px] leading-[1.9] text-white/85">
                 <code>{`${CREATE_CMD_BLOCK}
 cd my-app
 docker compose -f cms/docker-compose.yml up -d
@@ -615,7 +608,7 @@ pnpm dev
 # ${typo("Сайт")}    → http://localhost:3000`}</code>
               </pre>
 
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+              <div className="mt-10 flex flex-wrap items-center gap-4">
                 <Button
                   nativeButton={false}
                   render={
@@ -626,7 +619,7 @@ pnpm dev
                     />
                   }
                   size="lg"
-                  className="h-10 bg-white px-5 text-black hover:bg-black hover:text-white"
+                  className="h-11 bg-white px-6 text-black hover:bg-black hover:text-white"
                 >
                   pnpm create @minecms/minecms-app
                 </Button>
@@ -641,18 +634,18 @@ pnpm dev
                   }
                   variant="outline"
                   size="lg"
-                  className="h-10 border-white/25 bg-transparent px-5 text-white hover:bg-black hover:text-white"
+                  className="h-11 border-white/25 bg-transparent px-6 text-white hover:bg-black hover:text-white"
                 >
                   GitHub
                 </Button>
               </div>
-            </div>
-          </Shell>
-        </section>
+            </SectionIntro>
+          </Container>
+        </Section>
 
         <footer className="border-t border-white/10 bg-black pb-12 pt-10 text-white md:pb-16">
-          <Shell>
-            <div className="flex flex-col items-center gap-6 text-center md:flex-row md:items-end md:justify-between md:text-left">
+          <Container>
+            <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="text-[clamp(1.5rem,4vw,2.5rem)] font-normal leading-none tracking-[-0.04em]">
                   MineCMS
@@ -661,7 +654,7 @@ pnpm dev
                   {typo("MIT · Node 24+ · pnpm 10+ · открытый исходный код")}
                 </p>
               </div>
-              <div className="flex flex-col items-center gap-3 text-sm text-white/70 md:items-end">
+              <div className="flex flex-col gap-3 text-sm text-white/70 md:items-end">
                 <Link
                   href="/versions"
                   className="transition-opacity hover:text-white"
@@ -687,7 +680,7 @@ pnpm dev
                 </p>
               </div>
             </div>
-          </Shell>
+          </Container>
         </footer>
       </div>
     </SmoothScroll>

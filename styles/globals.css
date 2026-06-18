@@ -175,6 +175,23 @@
   color: oklch(0.15 0 0);
 }
 
+.landing-marquee {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+}
+
 /* Medium-style image zoom (порт zoom-vanilla.js) */
 img[data-action="zoom"],
 .image-zoom-thumb {
