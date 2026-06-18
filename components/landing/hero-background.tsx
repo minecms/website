@@ -11,7 +11,7 @@ export function HeroVideo() {
       preload="auto"
       aria-hidden
     >
-      <source src="/video/hero.mp4" type="video/mp4" />
+      <source src="/video/intro.mp4" type="video/mp4" />
     </video>
   );
 }
