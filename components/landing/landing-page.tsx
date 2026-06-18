@@ -191,21 +191,21 @@ export function LandingPage() {
           </Shell>
         </header>
 
-        <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden pb-16 pt-32 text-[#f4f2ee] md:pb-24">
+        <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden pb-16 pt-32 md:pb-24">
           <HeroBackground />
           <Shell wide className="relative z-10">
             <p
               data-hero-meta
-              className="mb-8 max-w-xl text-[13px] leading-relaxed tracking-wide text-[#f4f2ee]/55"
+              className="mb-8 max-w-xl text-[13px] leading-relaxed tracking-wide text-sky-200/50"
             >
               Headless CMS на TypeScript · self-hosted · vendor-neutral
             </p>
 
-            <h1 className="max-w-[14ch] text-[clamp(2.75rem,9vw,7.5rem)] font-normal leading-[0.92] tracking-[-0.04em]">
+            <h1 className="max-w-[14ch] text-[clamp(2.75rem,9vw,7.5rem)] font-normal leading-[0.92] tracking-[-0.04em] text-white">
               <span data-hero-line className="block">
                 Схемы
               </span>
-              <span data-hero-line className="block text-[#f4f2ee]/40">
+              <span data-hero-line className="block text-sky-300/45">
                 в коде.
               </span>
               <span data-hero-line className="block">
@@ -215,7 +215,7 @@ export function LandingPage() {
 
             <p
               data-hero-meta
-              className="mt-10 max-w-md text-base leading-relaxed text-[#f4f2ee]/60 md:text-lg"
+              className="mt-10 max-w-md text-base leading-relaxed text-sky-100/55 md:text-lg"
             >
               Опиши контент-модели в TypeScript — получи Studio, REST API и
               типизированный SDK из одного источника правды.
@@ -223,7 +223,7 @@ export function LandingPage() {
 
             <div
               data-scroll-hint
-              className="mt-20 flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-[#f4f2ee]/35"
+              className="mt-20 flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-sky-200/30"
             >
               <span className="h-px w-8 bg-current" />
               scroll
