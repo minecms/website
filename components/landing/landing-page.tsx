@@ -93,6 +93,83 @@ const STACK = [
   "Next.js / Nuxt",
 ] as const;
 
+const UI_MARQUEE = [
+  "React 19",
+  "Tailwind CSS v4",
+  "shadcn/ui",
+  "Radix UI",
+  "oklch",
+  "@minecms/ui",
+  "TanStack",
+  "TipTap",
+  "Hugeicons",
+  "Storybook",
+  "Vite 8",
+] as const;
+
+const UI_TECH = [
+  {
+    label: typo("Дизайн-система"),
+    title: "@minecms/ui",
+    description: typo(
+      "Собственная дизайн-система Studio: токены в oklch, светлая и тёмная тема, единые отступы и радиусы. Компоненты документированы в Storybook — Button, Form, Dialog, Select, Sheet и другие примитивы из одного пакета.",
+    ),
+    tags: ["@minecms/ui", "oklch", "Storybook", "Design Engineer"],
+    accent: "border-violet-200 bg-violet-50/60",
+    tagClass: "bg-violet-100 text-violet-800",
+  },
+  {
+    label: typo("Стили"),
+    title: "Tailwind CSS v4",
+    description: typo(
+      "Utility-first вёрстка на последней major-версии Tailwind: CSS-first конфиг, @theme inline, без legacy tailwind.config. Быстрая сборка через Vite 8, предсказуемые утилиты bg-background, text-foreground и ring-ring из токенов.",
+    ),
+    tags: ["Tailwind v4", "Vite 8", "CVA", "tailwind-merge"],
+    accent: "border-sky-200 bg-sky-50/60",
+    tagClass: "bg-sky-100 text-sky-800",
+  },
+  {
+    label: typo("Компоненты"),
+    title: "shadcn/ui + Radix UI",
+    description: typo(
+      "Паттерны shadcn/ui — composable-компоненты, которые вы контролиете в коде, а не тянете из чёрного ящика. Radix UI даёт доступность из коробки: фокус, клавиатура, aria — в Dialog, Dropdown, Select, Popover, Tooltip и Switch.",
+    ),
+    tags: ["shadcn/ui", "Radix UI", "a11y", "composable"],
+    accent: "border-emerald-200 bg-emerald-50/60",
+    tagClass: "bg-emerald-100 text-emerald-800",
+  },
+  {
+    label: typo("Формы и данные"),
+    title: "TanStack + tRPC",
+    description: typo(
+      "TanStack Router — типизированная навигация, TanStack Query — кэш и синхронизация с сервером, TanStack Form — управление полями без боли. tRPC v11 связывает Studio с API в реальном времени: типы на клиенте совпадают с сервером.",
+    ),
+    tags: ["TanStack Router", "TanStack Query", "TanStack Form", "tRPC v11"],
+    accent: "border-amber-200 bg-amber-50/60",
+    tagClass: "bg-amber-100 text-amber-800",
+  },
+  {
+    label: typo("Редактор"),
+    title: "TipTap",
+    description: typo(
+      "Современный rich-text на ProseMirror: заголовки, списки, ссылки, таблицы, выделение, выравнивание — всё в поле контента Studio. Расширяемая архитектура: новые блоки добавляются без переписывания админки.",
+    ),
+    tags: ["TipTap", "ProseMirror", "rich-text", "tables"],
+    accent: "border-rose-200 bg-rose-50/60",
+    tagClass: "bg-rose-100 text-rose-800",
+  },
+  {
+    label: typo("Детали"),
+    title: typo("Иконки и полировка"),
+    description: typo(
+      "Hugeicons — единый набор иконок через обёртку Icon. clsx и class-variance-authority для вариантов компонентов. На лендинге — GSAP и Lenis для плавного скролла; в Studio — React 19 с Vite 8 и HMR за миллисекунды.",
+    ),
+    tags: ["Hugeicons", "React 19", "GSAP", "Lenis"],
+    accent: "border-orange-200 bg-orange-50/60",
+    tagClass: "bg-orange-100 text-orange-800",
+  },
+] as const;
+
 const MARQUEE = [
   typo("схемы в коде"),
   typo("на вашем сервере"),
@@ -315,7 +392,7 @@ export function LandingPage() {
                 </h2>
                 <p className="mt-5 text-base leading-[1.8] text-[#121212]/75">
                   {typo(
-                    "Динамические списки, формы и медиа с превью в полный экран. Мастер установки за минуты: PostgreSQL 16, администратор, миграции — и можно создавать документы. CRUD по схемам без отдельной вёрстки под каждый тип контента.",
+                    "Динамические списки, формы и медиа с превью в полный экран. Интерфейс на React 19, Tailwind v4 и shadcn/ui — понятный редакторам, без ручной вёрстки под каждый тип документа. Мастер установки за минуты: PostgreSQL 16, администратор, миграции.",
                   )}
                 </p>
               </div>
@@ -392,8 +469,65 @@ export function LandingPage() {
           </Shell>
         </section>
 
+        {/* 5b. UI / Design system */}
+        <section className="overflow-hidden border-y border-[#121212]/8 bg-[#fafafa] py-20 md:py-28">
+          <Shell>
+            <div data-reveal className="mx-auto max-w-3xl text-center">
+              <SectionLabel>{typo("Интерфейс")}</SectionLabel>
+              <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
+                {typo("UI на самых современных технологиях")}
+              </h2>
+              <p className="mt-5 text-base leading-[1.8] text-[#121212]/75 md:text-lg">
+                {typo(
+                  "MineCMS Studio — не legacy-админка на jQuery. Это React 19, Tailwind CSS v4, shadcn/ui и Radix UI: продуманный интерфейс Design Engineer, доступный редакторам и приятный разработчикам.",
+                )}
+              </p>
+            </div>
+
+            <div className="mt-10 overflow-hidden md:mt-12">
+              <div className="marquee-track flex w-max gap-8 font-mono text-[clamp(1rem,2.5vw,1.75rem)] tracking-[-0.03em] text-[#121212]/25">
+                {[...UI_MARQUEE, ...UI_MARQUEE].map((item, i) => (
+                  <span key={`${item}-${i}`} className="whitespace-nowrap">
+                    {item}
+                    <span className="mx-8 text-[#121212]/30">·</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:gap-6">
+              {UI_TECH.map((item) => (
+                <article
+                  key={item.title}
+                  data-reveal
+                  className={`rounded-2xl border p-6 md:p-7 ${item.accent}`}
+                >
+                  <SectionLabel>{item.label}</SectionLabel>
+                  <h3 className="mt-3 text-xl tracking-[-0.02em] md:text-2xl">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-[15px] leading-[1.8] text-[#121212]/75">
+                    {item.description}
+                  </p>
+                  <ul className="mt-5 flex flex-wrap gap-2">
+                    {item.tags.map((tag) => (
+                      <li key={tag}>
+                        <span
+                          className={`inline-block rounded-full px-2.5 py-1 font-mono text-[11px] tracking-wide ${item.tagClass}`}
+                        >
+                          {tag}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          </Shell>
+        </section>
+
         {/* 6. Meet the CMS — alternating feature blocks */}
-        <section className="bg-[#fafafa] py-20 md:py-28">
+        <section className="py-20 md:py-28">
           <Shell>
             <div data-reveal className="mx-auto max-w-3xl text-center">
               <SectionLabel>MineCMS</SectionLabel>
