@@ -574,24 +574,6 @@ pnpm dev
                   </Link>
                   .
                 </p>
-                <div className="flex gap-5">
-                  <Link
-                    href="https://github.com/minecms/minecms"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="transition-opacity hover:text-white/70"
-                  >
-                    GitHub
-                  </Link>
-                  <Link
-                    href="https://www.npmjs.com/org/minecms"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="transition-opacity hover:text-white/70"
-                  >
-                    npm
-                  </Link>
-                </div>
               </div>
             </div>
           </Shell>
