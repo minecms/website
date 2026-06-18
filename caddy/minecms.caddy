@@ -1,0 +1,3 @@
+minecms.ru, www.minecms.ru {
+	reverse_proxy minecms-app:3000
+}
