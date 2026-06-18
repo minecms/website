@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SmoothScroll } from "./smooth-scroll";
@@ -49,6 +49,32 @@ const MARQUEE = [
   "Nuxt",
 ] as const;
 
+function Shell({
+  children,
+  wide,
+  className = "",
+}: {
+  children: ReactNode;
+  wide?: boolean;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`mx-auto w-full px-6 md:px-10 lg:px-14 ${wide ? "max-w-[1400px]" : "max-w-5xl"} ${className}`}
+    >
+      {children}
+    </div>
+  );
+}
+
+function SectionLabel({ children }: { children: ReactNode }) {
+  return (
+    <p className="text-[11px] uppercase tracking-[0.3em] text-[#121212]/40">
+      {children}
+    </p>
+  );
+}
+
 export function LandingPage() {
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -93,9 +119,9 @@ export function LandingPage() {
             start: "top 88%",
             toggleActions: "play none none none",
           },
-          y: 48,
+          y: 40,
           opacity: 0,
-          duration: 1,
+          duration: 0.9,
           ease: "power3.out",
         });
       });
@@ -111,20 +137,9 @@ export function LandingPage() {
             end: "bottom top",
             scrub: true,
           },
-          y: -80,
-          scale: 1.04,
+          y: -48,
+          scale: 1.03,
           ease: "none",
-        });
-      });
-
-      gsap.utils.toArray<HTMLElement>("[data-pin-text]").forEach((el) => {
-        ScrollTrigger.create({
-          trigger: el,
-          start: "top 40%",
-          end: "bottom 60%",
-          pin: el.querySelector("[data-pin-inner]"),
-          pinSpacing: false,
-          anticipatePin: 1,
         });
       });
     }, rootRef);
@@ -144,37 +159,41 @@ export function LandingPage() {
           }}
         />
 
-        <header className="fixed inset-x-0 top-0 z-40 flex items-center justify-between px-6 py-6 mix-blend-difference md:px-10 md:py-8">
-          <Link
-            href="/"
-            className="text-[13px] font-medium tracking-[0.22em] uppercase text-white transition-opacity hover:opacity-60"
+        <header className="fixed inset-x-0 top-0 z-40">
+          <Shell
+            wide
+            className="flex items-center justify-between py-6 mix-blend-difference md:py-8"
           >
-            MineCMS
-          </Link>
-          <nav className="flex items-center gap-6 text-[13px] tracking-wide text-white/80">
             <Link
-              href="https://github.com/minecms/minecms"
-              className="transition-opacity hover:opacity-60"
-              target="_blank"
-              rel="noreferrer"
+              href="/"
+              className="text-[13px] font-medium tracking-[0.22em] uppercase text-white transition-opacity hover:opacity-60"
             >
-              GitHub
+              MineCMS
             </Link>
-            <Link
-              href="https://www.npmjs.com/org/minecms"
-              className="transition-opacity hover:opacity-60"
-              target="_blank"
-              rel="noreferrer"
-            >
-              npm
-            </Link>
-          </nav>
+            <nav className="flex items-center gap-6 text-[13px] tracking-wide text-white/80">
+              <Link
+                href="https://github.com/minecms/minecms"
+                className="transition-opacity hover:opacity-60"
+                target="_blank"
+                rel="noreferrer"
+              >
+                GitHub
+              </Link>
+              <Link
+                href="https://www.npmjs.com/org/minecms"
+                className="transition-opacity hover:opacity-60"
+                target="_blank"
+                rel="noreferrer"
+              >
+                npm
+              </Link>
+            </nav>
+          </Shell>
         </header>
 
-        <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden px-6 pb-16 pt-32 text-[#f4f2ee] md:px-10 md:pb-24">
+        <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden pb-16 pt-32 text-[#f4f2ee] md:pb-24">
           <HeroBackground />
-
-          <div className="relative z-10">
+          <Shell wide className="relative z-10">
             <p
               data-hero-meta
               className="mb-8 max-w-xl text-[13px] leading-relaxed tracking-wide text-[#f4f2ee]/55"
@@ -202,14 +221,17 @@ export function LandingPage() {
               типизированный SDK из одного источника правды.
             </p>
 
-            <div data-scroll-hint className="mt-20 flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-[#f4f2ee]/35">
+            <div
+              data-scroll-hint
+              className="mt-20 flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-[#f4f2ee]/35"
+            >
               <span className="h-px w-8 bg-current" />
               scroll
             </div>
-          </div>
+          </Shell>
         </section>
 
-        <div className="overflow-hidden py-6">
+        <div className="overflow-hidden py-8 md:py-10">
           <div className="marquee-track flex w-max gap-10 text-[clamp(1.5rem,4vw,3rem)] tracking-[-0.03em] text-[#121212]/12">
             {[...MARQUEE, ...MARQUEE].map((item, i) => (
               <span key={`${item}-${i}`} className="whitespace-nowrap">
@@ -220,207 +242,206 @@ export function LandingPage() {
           </div>
         </div>
 
-        <section className="px-6 py-24 md:px-10 md:py-32">
-          <div data-reveal className="mb-16 max-w-2xl">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#121212]/40">
-              Studio
-            </p>
-            <h2 className="mt-4 text-[clamp(2rem,5vw,4rem)] font-normal leading-[1.05] tracking-[-0.03em]">
-              Панель, которая строится сама — по вашим схемам
-            </h2>
-            <p className="mt-6 max-w-lg text-base leading-relaxed text-[#121212]/55">
-              Списки, формы, медиа и CRUD без ручной вёрстки. Изменили
-              minecms.config.ts — Studio и API обновились вместе с кодом.
-            </p>
-          </div>
-
-          <div
-            data-parallax
-            className="relative aspect-[16/10] w-full overflow-hidden md:aspect-[2/1]"
-          >
-            <div data-parallax-inner className="absolute inset-[-8%]">
-              <Image
-                src="/images/studio-visual.png"
-                alt="Абстрактная визуализация схем данных MineCMS Studio"
-                fill
-                className="object-cover object-center"
-                sizes="100vw"
-                priority
-              />
+        <section className="py-20 md:py-32">
+          <Shell>
+            <div data-reveal className="mb-14 max-w-2xl md:mb-20">
+              <SectionLabel>Studio</SectionLabel>
+              <h2 className="mt-5 text-[clamp(2rem,5vw,3.5rem)] font-normal leading-[1.08] tracking-[-0.03em]">
+                Панель, которая строится сама — по вашим схемам
+              </h2>
+              <p className="mt-6 max-w-lg text-base leading-[1.75] text-[#121212]/55 md:text-lg">
+                Списки, формы, медиа и CRUD без ручной вёрстки. Изменили
+                minecms.config.ts — Studio и API обновились вместе с кодом.
+              </p>
             </div>
-          </div>
+          </Shell>
+
+          <Shell wide className="mt-4">
+            <div
+              data-parallax
+              className="relative aspect-[16/10] w-full overflow-hidden md:aspect-[2/1]"
+            >
+              <div data-parallax-inner className="absolute inset-[-6%]">
+                <Image
+                  src="/images/studio-visual.png"
+                  alt="Абстрактная визуализация схем данных MineCMS Studio"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 1400px) 100vw, 1400px"
+                  priority
+                />
+              </div>
+            </div>
+          </Shell>
         </section>
 
-        <section className="px-6 py-24 md:px-10 md:py-36">
-          <div className="grid gap-20 md:grid-cols-[1fr_2fr] md:gap-16">
-            {FEATURES.map((feature) => (
-              <article key={feature.num} data-reveal className="group">
-                <span className="text-[11px] tabular-nums tracking-[0.3em] text-[#121212]/30">
-                  {feature.num}
-                </span>
-                <h3 className="mt-4 text-2xl tracking-[-0.02em] md:text-3xl">
-                  {feature.title}
-                </h3>
-                <p className="mt-4 max-w-sm text-base leading-relaxed text-[#121212]/55">
-                  {feature.text}
-                </p>
-              </article>
-            ))}
-          </div>
+        <section className="py-20 md:py-32">
+          <Shell>
+            <div className="grid gap-16 md:grid-cols-3 md:gap-12 lg:gap-16">
+              {FEATURES.map((feature) => (
+                <article key={feature.num} data-reveal>
+                  <span className="text-[11px] tabular-nums tracking-[0.3em] text-[#121212]/30">
+                    {feature.num}
+                  </span>
+                  <h3 className="mt-5 text-xl tracking-[-0.02em] md:text-2xl">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-4 text-base leading-[1.75] text-[#121212]/55">
+                    {feature.text}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </Shell>
         </section>
 
-        <section
-          data-pin-text
-          className="relative min-h-[90vh] px-6 py-24 md:px-10 md:py-32"
-        >
-          <div
-            data-pin-inner
-            className="max-w-xs md:absolute md:left-10 md:top-1/2 md:-translate-y-1/2"
-          >
-            <p data-reveal className="text-[11px] uppercase tracking-[0.3em] text-[#121212]/40">
-              Установка
-            </p>
+        <section className="py-20 md:py-32">
+          <Shell>
+            <SectionLabel>Архитектура</SectionLabel>
             <h2
               data-reveal
-              className="mt-4 text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.1] tracking-[-0.03em]"
+              className="mt-5 max-w-3xl text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.12] tracking-[-0.03em]"
             >
-              Готово за минуты — визард в Studio
+              Один контракт — три поверхности: API, админка, клиент
             </h2>
+
+            <div
+              data-reveal
+              className="mt-12 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[clamp(0.8rem,1.8vw,1rem)] text-[#121212]/65"
+            >
+              {STACK.map((item, i) => (
+                <span key={item} className="flex items-center gap-3">
+                  <span className="tracking-tight">{item}</span>
+                  {i < STACK.length - 1 && (
+                    <span className="text-[#121212]/25" aria-hidden>
+                      →
+                    </span>
+                  )}
+                </span>
+              ))}
+            </div>
+
             <p
               data-reveal
-              className="mt-6 text-base leading-relaxed text-[#121212]/55"
+              className="mt-8 max-w-2xl text-base leading-[1.75] text-[#121212]/55 md:mt-10 md:text-lg"
             >
-              PostgreSQL, администратор, первый документ. Без облачных
-              подписок и чужих панелей.
+              Fastify + tRPC на сервере, Vite + React в Studio, типизированный
+              REST-клиент в SDK. Схемы сериализуются один раз — UI и валидация
+              всегда синхронны.
             </p>
-          </div>
+          </Shell>
 
-          <div
-            data-parallax
-            className="relative mt-16 aspect-[4/3] w-full overflow-hidden md:ml-auto md:mt-0 md:w-[72%]"
-          >
-            <div data-parallax-inner className="absolute inset-[-6%]">
-              <Image
-                src="/images/install-visual.png"
-                alt="Абстрактная визуализация быстрого запуска MineCMS"
-                fill
-                className="object-cover object-center"
-                sizes="(max-width: 768px) 100vw, 72vw"
-              />
+          <Shell wide className="mt-14 md:mt-20">
+            <div
+              data-parallax
+              className="relative aspect-[21/9] w-full overflow-hidden"
+            >
+              <div data-parallax-inner className="absolute inset-[-5%]">
+                <Image
+                  src="/images/architecture-visual.png"
+                  alt="Абстрактная визуализация архитектуры MineCMS"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 1400px) 100vw, 1400px"
+                />
+              </div>
             </div>
-          </div>
+          </Shell>
         </section>
 
-        <section className="px-6 py-24 md:px-10 md:py-36">
-          <p data-reveal className="text-[11px] uppercase tracking-[0.3em] text-[#121212]/40">
-            Архитектура
-          </p>
-          <h2
-            data-reveal
-            className="mt-4 max-w-3xl text-[clamp(1.75rem,4vw,3.25rem)] font-normal leading-[1.1] tracking-[-0.03em]"
-          >
-            Один контракт — три поверхности: API, админка, клиент
-          </h2>
+        <section className="py-20 md:py-32">
+          <Shell wide>
+            <div className="grid items-center gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] md:gap-16 lg:gap-24">
+              <div data-reveal>
+                <SectionLabel>Установка</SectionLabel>
+                <h2 className="mt-5 text-[clamp(1.75rem,4vw,2.75rem)] font-normal leading-[1.12] tracking-[-0.03em]">
+                  Готово за минуты — визард в Studio
+                </h2>
+                <p className="mt-6 max-w-md text-base leading-[1.75] text-[#121212]/55 md:text-lg">
+                  PostgreSQL, администратор, первый документ. Без облачных
+                  подписок и чужих панелей.
+                </p>
+              </div>
 
-          <div
-            data-reveal
-            className="mt-16 flex flex-wrap items-center gap-x-4 gap-y-3 font-mono text-[clamp(0.85rem,2vw,1.1rem)] text-[#121212]/70"
-          >
-            {STACK.map((item, i) => (
-              <span key={item} className="flex items-center gap-4">
-                <span className="tracking-tight">{item}</span>
-                {i < STACK.length - 1 && (
-                  <span className="text-[#121212]/25" aria-hidden>
-                    →
-                  </span>
-                )}
-              </span>
-            ))}
-          </div>
-
-          <p
-            data-reveal
-            className="mt-12 max-w-2xl text-base leading-relaxed text-[#121212]/55"
-          >
-            Fastify + tRPC на сервере, Vite + React в Studio, типизированный
-            REST-клиент в SDK. Схемы сериализуются один раз — UI и валидация
-            всегда синхронны.
-          </p>
-
-          <div
-            data-parallax
-            className="relative mt-20 aspect-[21/9] w-full overflow-hidden"
-          >
-            <div data-parallax-inner className="absolute inset-[-6%]">
-              <Image
-                src="/images/architecture-visual.png"
-                alt="Абстрактная визуализация архитектуры MineCMS"
-                fill
-                className="object-cover object-center"
-                sizes="100vw"
-              />
+              <div
+                data-parallax
+                className="relative aspect-[4/3] w-full overflow-hidden"
+              >
+                <div data-parallax-inner className="absolute inset-[-5%]">
+                  <Image
+                    src="/images/install-visual.png"
+                    alt="Абстрактная визуализация быстрого запуска MineCMS"
+                    fill
+                    className="object-cover object-center"
+                    sizes="(max-width: 768px) 100vw, 55vw"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
+          </Shell>
         </section>
 
-        <section className="px-6 py-24 md:px-10 md:py-36">
-          <p data-reveal className="text-[11px] uppercase tracking-[0.3em] text-[#121212]/40">
-            Быстрый старт
-          </p>
+        <section className="py-20 md:py-32">
+          <Shell>
+            <SectionLabel>Быстрый старт</SectionLabel>
 
-          <pre
-            data-reveal
-            className="mt-8 overflow-x-auto font-mono text-[clamp(0.8rem,1.6vw,0.95rem)] leading-[1.9] text-[#121212]/75"
-          >
-            <code>{`npm create @minecms/minecms-app my-app -- --next -y
+            <pre
+              data-reveal
+              className="mt-8 max-w-2xl overflow-x-auto font-mono text-[clamp(0.78rem,1.5vw,0.92rem)] leading-[2] text-[#121212]/70"
+            >
+              <code>{`npm create @minecms/minecms-app my-app -- --next -y
 cd my-app
 docker compose -f cms/docker-compose.yml up -d
 pnpm dev
 
 # Studio → http://localhost:3333/admin
 # Сайт   → http://localhost:3000`}</code>
-          </pre>
+            </pre>
 
-          <div data-reveal className="mt-12 flex flex-wrap items-center gap-8">
-            <Link
-              href="https://github.com/minecms/minecms"
-              className="group inline-flex items-center gap-2 text-sm tracking-wide text-[#121212] transition-opacity hover:opacity-55"
-              target="_blank"
-              rel="noreferrer"
+            <div
+              data-reveal
+              className="mt-14 flex flex-col gap-5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-10"
             >
-              <span>Документация на GitHub</span>
-              <span className="transition-transform group-hover:translate-x-1">
-                →
-              </span>
-            </Link>
-            <Link
-              href="https://www.npmjs.com/package/@minecms/create-minecms-app"
-              className="group inline-flex items-center gap-2 text-sm tracking-wide text-[#121212]/55 transition-opacity hover:opacity-80"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span>@minecms/create-minecms-app</span>
-              <span className="transition-transform group-hover:translate-x-1">
-                →
-              </span>
-            </Link>
-          </div>
+              <Link
+                href="https://github.com/minecms/minecms"
+                className="group inline-flex items-center gap-2 text-sm tracking-wide text-[#121212] transition-opacity hover:opacity-55"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>Документация на GitHub</span>
+                <span className="transition-transform group-hover:translate-x-1">
+                  →
+                </span>
+              </Link>
+              <Link
+                href="https://www.npmjs.com/package/@minecms/create-minecms-app"
+                className="group inline-flex items-center gap-2 text-sm tracking-wide text-[#121212]/55 transition-opacity hover:opacity-80"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>@minecms/create-minecms-app</span>
+                <span className="transition-transform group-hover:translate-x-1">
+                  →
+                </span>
+              </Link>
+            </div>
+          </Shell>
         </section>
 
-        <footer className="px-6 pb-16 pt-8 md:px-10 md:pb-24">
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="text-[clamp(2rem,6vw,4.5rem)] font-normal leading-none tracking-[-0.04em]">
-                MineCMS
-              </p>
-              <p className="mt-4 text-sm text-[#121212]/40">
-                MIT · Node 24+ · pnpm 10+
-              </p>
+        <footer className="pb-16 pt-10 md:pb-24 md:pt-14">
+          <Shell wide>
+            <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="text-[clamp(2rem,6vw,4rem)] font-normal leading-none tracking-[-0.04em]">
+                  MineCMS
+                </p>
+                <p className="mt-5 text-sm text-[#121212]/40">
+                  MIT · Node 24+ · pnpm 10+
+                </p>
+              </div>
+              <p className="text-sm text-[#121212]/35">hello@minecms.ru</p>
             </div>
-            <p className="text-sm text-[#121212]/35">
-              hello@minecms.ru
-            </p>
-          </div>
+          </Shell>
         </footer>
       </div>
     </SmoothScroll>
