@@ -110,7 +110,7 @@ function Shell({
 
 function SectionLabel({ children }: { children: ReactNode }) {
   return (
-    <p className="text-[11px] uppercase tracking-[0.28em] text-foreground/40">
+    <p className="text-[11px] uppercase tracking-[0.28em] text-[#121212]/60">
       {children}
     </p>
   );
@@ -122,7 +122,7 @@ function CopyButton({ text }: { text: string }) {
     <button
       type="button"
       onClick={copy}
-      className="shrink-0 rounded-md px-3 py-1.5 text-xs text-white/50 transition-colors hover:bg-white/10 hover:text-white/80"
+      className="shrink-0 rounded-md px-3 py-1.5 text-xs text-white/70 transition-colors hover:bg-white/10 hover:text-white"
       aria-label="Скопировать команду"
     >
       Copy
@@ -183,7 +183,7 @@ export function LandingPage() {
             >
               MineCMS
             </Link>
-            <nav className="flex items-center gap-6 text-[13px] tracking-wide text-white/70">
+            <nav className="flex items-center gap-6 text-[13px] tracking-wide text-white/80">
               <Link
                 href="https://github.com/minecms/minecms"
                 className="transition-opacity hover:text-white"
@@ -212,7 +212,7 @@ export function LandingPage() {
             <div className="mx-auto w-full max-w-4xl text-center">
               <p
                 data-hero-fade
-                className="mb-6 text-[13px] tracking-wide text-white/45"
+                className="mb-6 text-[13px] tracking-wide text-white/75"
               >
                 Headless CMS · TypeScript · self-hosted · MIT
               </p>
@@ -221,7 +221,7 @@ export function LandingPage() {
                 <span data-hero-line className="block">
                   Схемы в коде.
                 </span>
-                <span data-hero-line className="block text-white/55">
+                <span data-hero-line className="block text-white/80">
                   Studio, API и SDK
                 </span>
                 <span data-hero-line className="block">
@@ -231,7 +231,7 @@ export function LandingPage() {
 
               <p
                 data-hero-fade
-                className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/50 md:text-lg"
+                className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/80 md:text-lg"
               >
                 defineSchema описывает контент-модели — @minecms/core
                 сериализует контракт, server отдаёт REST/tRPC, Studio рендерит
@@ -287,12 +287,12 @@ export function LandingPage() {
           <Shell>
             <p
               data-reveal
-              className="text-center text-sm leading-relaxed text-[#121212]/55 md:text-base"
+              className="text-center text-sm leading-relaxed text-[#121212]/50 md:text-base"
             >
               Open source headless CMS для команд, которым нужен{" "}
-              <span className="text-[#121212]">schemas-as-code</span>,{" "}
-              <span className="text-[#121212]">self-hosted</span> деплой и{" "}
-              <span className="text-[#121212]">vendor-neutral</span> стек — без
+              <span className="text-[#121212]/80">schemas-as-code</span>,{" "}
+              <span className="text-[#121212]/80">self-hosted</span> деплой и{" "}
+              <span className="text-[#121212]/80">vendor-neutral</span> стек — без
               проприетарных облаков и кликов в GUI для моделей данных.
             </p>
           </Shell>
@@ -300,11 +300,11 @@ export function LandingPage() {
 
         {/* Marquee */}
         <div className="overflow-hidden bg-white py-6 md:py-8">
-          <div className="marquee-track flex w-max gap-8 text-[clamp(1.25rem,3vw,2.25rem)] tracking-[-0.03em] text-[#121212]/10">
+          <div className="marquee-track flex w-max gap-8 font-mono text-[clamp(1.25rem,3vw,2.25rem)] tracking-[-0.03em] text-[#121212]/30">
             {[...MARQUEE, ...MARQUEE].map((item, i) => (
               <span key={`${item}-${i}`} className="whitespace-nowrap">
                 {item}
-                <span className="mx-8 text-[#121212]/15">·</span>
+                <span className="mx-8 text-[#121212]/35">·</span>
               </span>
             ))}
           </div>
@@ -322,7 +322,7 @@ export function LandingPage() {
                 <h2 className="mt-4 text-balance text-[clamp(1.5rem,3.5vw,2.25rem)] font-normal leading-[1.15] tracking-[-0.03em]">
                   Schemas-as-code для разработчиков
                 </h2>
-                <p className="mt-5 text-base leading-[1.8] text-[#121212]/55">
+                <p className="mt-5 text-base leading-[1.8] text-[#121212]/75">
                   defineSchema, defineField, defineConfig в TypeScript. Схемы в
                   git, миграции Drizzle из контракта, InferSchemaType на
                   клиенте. Fastify + tRPC + REST — без расхождения типов между
@@ -334,7 +334,7 @@ export function LandingPage() {
                 <h2 className="mt-4 text-balance text-[clamp(1.5rem,3.5vw,2.25rem)] font-normal leading-[1.15] tracking-[-0.03em]">
                   Studio для контента
                 </h2>
-                <p className="mt-5 text-base leading-[1.8] text-[#121212]/55">
+                <p className="mt-5 text-base leading-[1.8] text-[#121212]/75">
                   Админка с динамическими списками, формами и медиа. Install-визард
                   за минуты — PostgreSQL, администратор, готово. CRUD по вашим
                   схемам без отдельной вёрстки под каждый тип документа.
@@ -352,7 +352,7 @@ export function LandingPage() {
               <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
                 Четыре поверхности из одного контракта
               </h2>
-              <p className="mt-5 text-base leading-[1.8] text-[#121212]/55 md:text-lg">
+              <p className="mt-5 text-base leading-[1.8] text-[#121212]/75 md:text-lg">
                 @minecms/core сериализует схемы один раз — Studio, server, SDK и
                 CLI читают один и тот же источник правды.
               </p>
@@ -364,7 +364,7 @@ export function LandingPage() {
                   <h3 className="text-xl tracking-[-0.02em] md:text-2xl">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-[15px] leading-[1.8] text-[#121212]/55">
+                  <p className="mt-3 text-[15px] leading-[1.8] text-[#121212]/75">
                     {item.description}
                   </p>
                   <Link
@@ -398,7 +398,7 @@ export function LandingPage() {
               {STACK.map((item) => (
                 <span
                   key={item}
-                  className="font-mono text-sm text-[#121212]/60 md:text-[15px]"
+                  className="font-mono text-sm text-[#121212]/70 md:text-[15px]"
                 >
                   {item}
                 </span>
@@ -415,7 +415,7 @@ export function LandingPage() {
               <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
                 Знакомьтесь с CMS
               </h2>
-              <p className="mt-5 text-base leading-[1.8] text-[#121212]/55 md:text-lg">
+              <p className="mt-5 text-base leading-[1.8] text-[#121212]/75 md:text-lg">
                 От defineSchema до типизированного SDK — один контракт на все
                 runtime-поверхности.
               </p>
@@ -435,7 +435,7 @@ export function LandingPage() {
                     <h3 className="mt-4 text-balance text-[clamp(1.5rem,3vw,2.25rem)] font-normal leading-[1.2] tracking-[-0.03em]">
                       {feature.title}
                     </h3>
-                    <p className="mt-5 text-base leading-[1.8] text-[#121212]/55 md:text-lg">
+                    <p className="mt-5 text-base leading-[1.8] text-[#121212]/75 md:text-lg">
                       {feature.description}
                     </p>
                   </div>
@@ -469,14 +469,14 @@ export function LandingPage() {
               <h2 className="mt-4 text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
                 Лучший способ управлять контентом
               </h2>
-              <p className="mt-6 text-base leading-[1.85] text-[#121212]/55 md:text-lg">
+              <p className="mt-6 text-base leading-[1.85] text-[#121212]/75 md:text-lg">
                 MineCMS — vendor-neutral headless CMS с открытым исходным кодом
                 под MIT. Self-hosted: ваш сервер, ваши данные, PostgreSQL или
                 MySQL. Схемы живут в репозитории рядом с приложением — code
                 review вместо кликов в GUI. Без проприетарных облаков и
                 vendor lock-in.
               </p>
-              <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-[#121212]/45">
+              <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-[#121212]/70">
                 <li>MIT License</li>
                 <li>Self-hosted</li>
                 <li>Vendor-neutral</li>
@@ -497,12 +497,12 @@ export function LandingPage() {
               <h2 className="text-balance text-[clamp(1.75rem,4vw,3rem)] font-normal leading-[1.15] tracking-[-0.03em]">
                 Начните за одну команду
               </h2>
-              <p className="mt-5 text-base leading-[1.8] text-white/50 md:text-lg">
+              <p className="mt-5 text-base leading-[1.8] text-white/80 md:text-lg">
                 Node 24+, pnpm 10+, Docker. Шаблон --next поднимает cms/ и
                 Next.js web/ — после install-визарда документ сразу в API и SDK.
               </p>
 
-              <pre className="mx-auto mt-10 max-w-xl overflow-x-auto rounded-lg border border-white/10 bg-white/5 px-5 py-4 text-left font-mono text-[13px] leading-[1.9] text-white/70">
+              <pre className="mx-auto mt-10 max-w-xl overflow-x-auto rounded-lg border border-white/10 bg-white/5 px-5 py-4 text-left font-mono text-[13px] leading-[1.9] text-white/85">
                 <code>{`${CREATE_CMD}
 cd my-app
 docker compose -f cms/docker-compose.yml up -d
@@ -555,11 +555,11 @@ pnpm dev
                 <p className="text-[clamp(1.5rem,4vw,2.5rem)] font-normal leading-none tracking-[-0.04em]">
                   MineCMS
                 </p>
-                <p className="mt-3 text-sm text-white/35">
+                <p className="mt-3 text-sm text-white/70">
                   MIT · Node 24+ · pnpm 10+ · vendor-neutral
                 </p>
               </div>
-              <div className="flex flex-col items-center gap-3 text-sm text-white/40 md:items-end">
+              <div className="flex flex-col items-center gap-3 text-sm text-white/70 md:items-end">
                 <Link
                   href="mailto:hello@minecms.ru"
                   className="transition-opacity hover:text-white/70"
